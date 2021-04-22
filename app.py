@@ -8,8 +8,8 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 # 建立 db連線
 mydb = mysql.connector.connect(
   host="localhost",
-  user="root",
-  password="root",
+  user="",
+  password="",
   database="website"
 )
 
@@ -188,4 +188,4 @@ def getAttractions():
             mimetype='application/json'
         )
 
-app.run(port=3000)
+app.run(host="0.0.0.0", port=3000)

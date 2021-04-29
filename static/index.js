@@ -84,15 +84,26 @@ const getData = async () =>{
     });
 }
 
-window.addEventListener("scroll", function (e) {
-    let rect =  document.querySelector("footer").getBoundingClientRect();
-    if( rect.bottom > 0 && rect.top < (window.innerHeight || document.documentElement.clientHeight)){
-        if( hasNextPage && loadFinish ){
-            loadFinish = false;
-            getData( page ,keyword );
-        }
+// window.addEventListener("scroll", function (e) {
+//     let rect =  document.querySelector("footer").getBoundingClientRect();
+//     if( rect.bottom > 0 && rect.top < (window.innerHeight || document.documentElement.clientHeight)){
+//         if( hasNextPage && loadFinish ){
+//             loadFinish = false;
+//             getData( page ,keyword );
+//         }
+//     }
+// });
+
+var intersectionObserver = new IntersectionObserver(function(entries) {
+    if (entries[0].intersectionRatio <= 0) return;
+  
+    if( hasNextPage && loadFinish ){
+        loadFinish = false;
+        getData( page ,keyword );
     }
 });
+
+intersectionObserver.observe(document.querySelector('footer'));
 
 
 searchBtn.addEventListener('click', function(e){

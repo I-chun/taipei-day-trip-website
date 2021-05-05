@@ -3,8 +3,8 @@ import mysql.connector
 # 建立 db連線
 mydb = mysql.connector.connect(
   host="localhost",
-  user="root",
-  password="root",
+  user="",
+  password="",
   database="website"
 )
 

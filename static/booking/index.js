@@ -12,7 +12,7 @@ const getData = async () =>{
 
     let url = "";
     attraction_id = 1;
-    url = 'http://127.0.0.1:3000/api/attraction/' + attraction_id ;
+    url = 'http://54.248.121.92:3000/api/attraction/' + attraction_id ;
     
     const response = await fetch( url, {
         cache: "no-cache", 

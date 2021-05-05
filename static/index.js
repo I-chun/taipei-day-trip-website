@@ -27,9 +27,9 @@ const getData = async () =>{
 
     let url = "";
     if ( keyword != "" ){
-        url = 'http://127.0.0.1:3000/api/attractions?page=' + page + "&keyword=" + keyword ;
+        url = 'http://54.248.121.92:3000/api/attractions?page=' + page + "&keyword=" + keyword ;
     }else{
-        url = 'http://127.0.0.1:3000/api/attractions?page='+ page ;
+        url = 'http://54.248.121.92:3000/api/attractions?page='+ page ;
     }
 
     const response = await fetch( url, {

@@ -26,10 +26,12 @@ function removeAllChildNodes(parent) {
 const getData = async () =>{
 
     let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
     if ( keyword != "" ){
-        url = 'http://54.248.121.92:3000/api/attractions?page=' + page + "&keyword=" + keyword ;
+        url = devurl + ':3000/api/attractions?page=' + page + "&keyword=" + keyword ;
     }else{
-        url = 'http://54.248.121.92:3000/api/attractions?page='+ page ;
+        url = devurl + ':3000/api/attractions?page='+ page ;
     }
 
     const response = await fetch( url, {
@@ -120,7 +122,6 @@ searchBtn.addEventListener('click', function(e){
     hasNextPage = true;
     const container = document.querySelector('.attractions .container');
     removeAllChildNodes(container);
-    getData();
 });
 
 

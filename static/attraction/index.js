@@ -12,7 +12,9 @@ let models={
     data: null,
     attraction_id: window.location.pathname.split('/')[2],
     getProductData:function(){
-        let url = "http://54.248.121.92:3000/api/attraction/" + this.attraction_id ;
+        let devurl = "http://54.248.121.92";
+        let testurl = "http://127.0.0.1";
+        let url = devurl + ":3000/api/attraction/" + this.attraction_id ;
         return fetch(url).then((response)=>{
             return response.json();
         }).then((result)=>{

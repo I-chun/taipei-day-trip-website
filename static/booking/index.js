@@ -58,15 +58,6 @@ const getData = async () =>{
         //     cardTextContent.appendChild(cardMrt);
         //     cardDiv.appendChild(cardTextContent);
 
-        //     document.querySelector('.attractions .container').appendChild(cardDiv);
-        // }
-
-        // if( jsonData.nextPage != null ){
-        //     page++;
-        // }else{
-        //     hasNextPage = false;
-        //     nodData.style.display="block"; 
-        // }
 
     }).catch((err) => {
         console.error('錯誤:', err);

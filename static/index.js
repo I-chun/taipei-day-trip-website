@@ -8,6 +8,10 @@ var keyword = "";
 var moreBtn = document.querySelector('.loadMore');
 var searchBtn = document.querySelector('.searchBtn');
 var nodData = document.querySelector('.nodata');
+var signInSignUpBtn = document.querySelector('.signIn_signUp_btn');
+var formContainer = document.querySelector('.form_container');
+var formClose = document.querySelector('.close');
+var formSwitch = document.querySelector('.switch');
 
 window.onload = function(){
     getData();
@@ -41,8 +45,8 @@ const getData = async () =>{
         loadFinish = true;
 
         for( num = 0 ; num < count ; num++ ){
-
             let cardDiv = document.createElement('div');
+            let cardlink = document.createElement('a');
             let cardImg = document.createElement('div');
             let img = document.createElement('img');
             let cardTextContent = document.createElement('div');
@@ -51,6 +55,7 @@ const getData = async () =>{
             let cardMrt = document.createElement('div');
 
             cardDiv.classList.add('card');
+            cardlink.classList.add('card-link');
             cardImg.classList.add('card-image');
             cardTextContent.classList.add('card-textContent');
             cardName.classList.add('card-name');
@@ -60,14 +65,17 @@ const getData = async () =>{
             cardName.textContent = jsonData.data[num].name;
             cardCategory.textContent = jsonData.data[num].category;
             cardMrt.textContent = jsonData.data[num].mrt;
-            img.src = jsonData.data[num].images[0] ;
+            img.src = jsonData.data[num].images[0];
+            cardlink.href = "/attraction/" + jsonData.data[num].id;
+            console.log( cardlink.href );
 
-            cardDiv.appendChild(cardImg);
+            cardlink.appendChild(cardImg);
             cardImg.appendChild(img);
             cardTextContent.appendChild(cardName);
             cardTextContent.appendChild(cardCategory);
             cardTextContent.appendChild(cardMrt);
-            cardDiv.appendChild(cardTextContent);
+            cardlink.appendChild(cardTextContent);
+            cardDiv.appendChild(cardlink);
 
             document.querySelector('.attractions .container').appendChild(cardDiv);
         }
@@ -105,12 +113,31 @@ var intersectionObserver = new IntersectionObserver(function(entries) {
 
 intersectionObserver.observe(document.querySelector('footer'));
 
-
 searchBtn.addEventListener('click', function(e){
+    nodData.style.display="none"; 
     keyword = document.querySelector(".keyword").value;
     page = 0;
     hasNextPage = true;
     const container = document.querySelector('.attractions .container');
     removeAllChildNodes(container);
     getData();
+});
+
+
+signInSignUpBtn.addEventListener('click', function(e){
+    formContainer.style.display = "block";
+});
+
+formClose.addEventListener('click', function(e){
+    formContainer.style.display = "none";
+});
+
+formSwitch.addEventListener('click', function(e){
+    if( document.querySelector('signUp').style.display == 'none'){
+        document.querySelector('signUp').style.display = 'block';
+        document.querySelector('signIn').style.display = 'none';
+    }else{
+        document.querySelector('signUp').style.display = 'none';
+        document.querySelector('signIn').style.display = 'block';
+    }
 });

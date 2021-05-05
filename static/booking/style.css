@@ -1,0 +1,140 @@
+
+.wrap{
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+/* ==== nav_bar ==== */
+.navigation{
+    position: fixed;
+    width: 100%;
+    height: 54px;
+    left: 0px;
+    top: 0px;
+    background: #fff;
+    z-index: 100;
+}
+
+.navigation > .container{
+    max-width: 1200px;
+    height: 34px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.navigation .logo{
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    color: #448899;
+}
+
+.navigation ul{
+    display: flex;
+    flex-direction: row;
+}
+.navigation ul > li{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 13px;
+    color: #666666;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.attraction{
+    width: 1200px;
+    margin: 94px auto 120px;
+}
+
+.attraction .container{
+    display: flex;
+}
+
+.attraction .title{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    color: #666666;
+}
+
+.attraction .slider{
+    width: 540px;
+    height: 406px;
+}
+
+.attraction .slider img{
+    object-fit: cover;
+    width: 100%;
+}
+
+.attraction .slider, .attraction .profile{
+    margin: 0 15px;
+}
+
+
+/* Header 3 - Bold 24(24) */
+.profile{
+    color: #666666;
+    font-family: 'Noto Sans TC';
+    margin: 0 auto 40px;
+}
+
+.profile .name{
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.profile > .text1{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 15px 0 20px;
+}
+
+.profile .book_form{
+    background: #E8E8E8;
+    border-radius: 5px;
+    max-width: 600px;
+    height: 302px;
+    padding: 15px 20px;
+    box-sizing: border-box;
+}
+
+.profile .book_form .text1{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.profile .book_form .text2{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 15px 0 ;
+}
+
+.infros {
+    margin: 50px auto 0;
+}
+
+ /* ==== footer ==== */
+ footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 104px;
+    background: #757575;
+}
+
+footer .copyright{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    color: white;
+}

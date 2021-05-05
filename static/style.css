@@ -1,0 +1,395 @@
+input{
+    padding: 0px;
+    border: 0;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+.search input::placeholder {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 15px;
+}
+
+.search input[type=text] {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 0 0 15px;
+    box-sizing: border-box;
+}
+
+.search input:focus{
+    outline:none;
+    padding: 0 0 0 15px;
+    box-sizing: border-box;
+}
+
+.wrap{
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+/* ==== nav_bar ==== */
+.navigation{
+    position: fixed;
+    width: 100%;
+    height: 54px;
+    left: 0px;
+    top: 0px;
+    background: #fff;
+    z-index: 100;
+}
+
+.navigation > .container{
+    max-width: 1200px;
+    height: 34px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.navigation .logo{
+    font-family: Noto Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    color: #448899;
+}
+
+.navigation .logo a{
+    text-decoration: none;
+    color: #448899;
+}
+
+.navigation ul{
+    display: flex;
+    flex-direction: row;
+}
+.navigation ul > li{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 13px;
+    color: #666666;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.banner{
+    margin-top: 54px;
+    height: 280px;
+    background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner .container{
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.slogan h2{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    color: #F8F8F8;
+    text-shadow: 0px 0px 30px #AABBCC;
+    padding-bottom: 15px;
+}
+
+.slogan p{
+    height: 22px;     
+    font-family: 'Noto Sans TC', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #F8F8F8;
+    padding-bottom: 25px;
+}
+
+.search{
+    display: flex;
+    height: 46px;
+    border-radius: 5px;
+    max-width: 460px;
+    overflow:hidden;
+}
+
+.search input{
+    max-width: 400px;
+    width: 100%;
+    background: #FFFFFF;
+}
+.search .searchBtn{
+    width: 60px;
+    background: #448899;
+    cursor: pointer;
+}
+
+.search .searchBtn img{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dec_img{
+    z-index: 0;
+    position: absolute;
+    width: 276px;
+    height: 148px;
+    bottom: 0;
+    right: -70px;
+}
+
+.attractions .container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 55px auto;
+}
+
+.card{
+    width:100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    overflow: hidden;
+    width: calc( 100% - 30px);
+    margin: 15px;
+    border: 1px solid #E8E8E8;
+    box-sizing: border-box;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.card-image {
+    padding-top: 60%;
+    position: relative;
+    overflow: hidden; 
+}
+
+.card-image img{
+    width: 120%;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: -10%;
+}
+
+.card-textContent{
+    padding: 12px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card-name{
+    flex-basis: 100%;
+    padding-bottom: 15px;
+}
+
+.card-name, .card-category, .card-mrt{
+    font-size: 16px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: #757575;
+}
+
+.card .card-name{
+    font-weight: bold;
+}
+
+.card-category, .card-mrt{
+    font-weight: 400;
+}
+
+.nodata{
+    font-size: 16px;
+    width: 120px;
+    height: 40px;
+    color: #666666;
+    margin: -40px auto 40px;
+    text-align: center;
+    line-height: 2.8;
+    display: none;
+}
+
+ /* === SignIn and SignUp === */
+ .form_container{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    top:0;
+    z-index: 500;
+    display: none;
+ }
+ 
+ .signIn, .signUp{
+     opacity: 1;
+     position: relative;
+     width: 340px;
+     height: 275px;  
+     background: #FFFFFF;
+     box-shadow: 0px 4px 60px #AAAAAA;
+     border-radius: 6px; 
+     font-family: 'Noto Sans TC';
+     top: 80px;
+     left: 0;
+     right: 0;
+     margin: 0 auto;
+     display: block;
+}
+
+.signUp{
+    height: 332px;
+    display: none;
+}
+
+.signIn .decbar, .signUp .decbar{
+    position: absolute;
+    width: 340px;
+    height: 10px;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.signIn .close, .signUp .close{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 17px;
+    top: 27px;
+    cursor: pointer;
+}
+    
+.signIn .title, .signUp .title{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    color: #666666;
+    margin: 20px 0 10px;
+}
+
+.signIn , .signUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signIn input, .signUp input, 
+.signIn .btn, .signUp .btn{
+    width: 310px;
+    height: 47px;
+    background: #FFFFFF;    
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 5px 0;
+} 
+
+.signIn .btn, .signUp .btn {
+    background: #448899;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: 0px;
+    cursor: pointer;
+}
+
+.signIn .switch, .signUp .switch{
+    color: #666666;
+    margin: 5px 0 15px;
+    cursor: pointer;
+}
+
+.signIn input, .signUp input{
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0 0 15px;
+    box-sizing: border-box;
+}
+
+
+ /* ==== footer ==== */
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 104px;
+    background: #757575;
+}
+
+footer .copyright{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    color: white;
+}
+
+@media screen and (min-width: 500px) {
+    .card{
+        width: calc( 50% - 30px);
+    }
+
+    .banner{
+        height: 320px;
+    }
+
+    .dec_img{
+        height: 60%;
+        width: auto;
+        right: -100px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .banner{
+        height: 280px;
+    }
+
+    .banner .container{
+        padding: 5px;
+    }
+
+    .dec_img{
+        height: 100%;
+        right: 232px;
+    }
+
+    .attractions  .container{
+        width: 100%;
+        max-width: 1200px;
+    }
+    .card{
+        width: calc( 25% - 30px);
+    }
+}

@@ -8,11 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/reset.css">
-    <link rel="stylesheet" href="/static/booking/style.css">
+    <link rel="stylesheet" href="/static/attraction/style.css">
 
 </head>
 <body class="wrap">
-
     <nav class="navigation">
         <div class="container">
             <h1 class="logo"><a href="/">台北一日遊</a></h1>
@@ -49,87 +48,60 @@
         </div>
     </div>
 
-    <div class="headline text-lg secondary-color font-bold">
-        您好，<span class="user_name1"></span>，待預訂的行程如下：
-    </div>
+    <section class="attraction">
+        <div class="container">
+            <div class="slideshow-container">
 
-    <div class="info_container">
+                <!-- Next and previous -->
+                <a class="prev" ><img src="/static/img/btn_leftArrow.png" alt=""></a>
+                <a class="next" ><img src="/static/img/btn_rightArrow.png" alt=""></a>
 
-        <section class="info">
-            <div class="picture">
-                <img class="image" src="" alt="">
+                <!-- dots -->
+                <div class="dots"></div>
             </div>
-            <div class="content">
-                <h3 class="primary-color text-base font-bold pt-5 pb-5">台北一日遊：<span class="name"></span></h3>
-                <div class="secondary-color pt-15"><span class="font-bold">日期：</span><span class="date"></span></div>
-                <div class="secondary-color pt-15"><span class="font-bold">時間：</span><span class="time"></span></div>
-                <div class="secondary-color pt-15"><span class="font-bold">費用：</span>新台幣 <span class="price"></span> 元</div>
-                <div class="secondary-color pt-15"><span class="font-bold">地點：</span><span class="address"></span></div>
+            
+            <div class="profile">
+                <h3 class="name"></h3>
+                <p class="text1"><span class="category"></span> at <span class="mrt"></span></p>
+                <div class="book_form">
+                    <p class="title">訂購導覽行程</p>
+                    <p class="text2 pt-15">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+                    <div class="pt-15">
+                        <label class="title ">選擇日期：
+                            <input type="date" name="date" id="date">
+                        </label>
+                    </div>
+                    <div class="pt-15">
+                        <label class="">
+                            <span class="title">選擇時間：</span> 
+                            <input type="radio" name="time" id="time" value="morning">上半天
+                            <input type="radio" name="time" id="time" value="afternoon">下半天
+                        </label>
+                    </div>
+                    <p class="pt-15">
+                        <span class="title">導覽費用：</span>
+                        <span class="">新台幣 <span class="price">2000</span> 元</span>
+                    </p>
+                    <div class="book_btn mt-20">開始預訂行程</div>
+                    <div class="bookingMessage pt-15"></div>
+                </div>
             </div>
-            <div class="icon">
-                <img src="../static/img/icon_delete.png" alt="">
-            </div>
-        </section>
-
-        <hr>
-
-        <section class="contact secondary-color">
-            <p class="font-bold text-lg pt-5 pb-5">您的聯絡資訊</p>     
-            <div class="pt-15">
-                <label class="">聯絡姓名：
-                    <input type="text" name="user_name2" id="name">
-                </label>
-            </div>   
-            <div class="pt-15">
-                <label class="">連絡信箱：
-                    <input type="email" name="user_email" id="email">
-                </label>
-            </div>
-            <div class="pt-15">
-                <label class="">手機號碼：
-                    <input type="text" name="user_phone" id="phone">
-                </label>
-            </div>
-            <p class="font-bold pt-20">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
-        </section>
-    
-        <hr>
-
-        <section class="payment secondary-color">            
-            <p class="font-bold text-lg pt-5 pb-5">信用卡付款資訊</p>
-            <div class="pt-15">
-                <label class="">卡片號碼：
-                    <input type="text" name="name" id="name" placeholder="**** **** **** ****">
-                </label>
-            </div>
-            <div class="pt-15">
-                <label class="">過期時間：
-                    <input type="email" name="email" id="email" placeholder="MM / YY">
-                </label>
-            </div>
-            <div class="pt-15">
-                <label class="">驗證密碼：
-                    <input type="text" name="name" id="name" placeholder="CVV">
-                </label>
-            </div>
-        </section>
+        </div>
 
         <hr>
-
-        <section class="confirm secondary-color flex">
-            <div class="font-bold">總價：新台幣 <span class="total_price">2000</span> 元</div>
-            <div class="confirm_btn mx-25">確認訂購並付款</div>
+        <section class="infros">            
+            <p class="description"></p>
+            <p class="title">景點地址：</p>
+            <p class="address"></p>
+            <p class="title">交通方式：</p>
+            <p class="transport"></p>
         </section>
-    </div>
-
-    <div class="emptystate_container">
-        <p class="secondary-color">目前沒有任何待預訂的行程</p>
-    </div>
+    </section>
 
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
-    <script src="/static/booking/index.js"></script>
+    <script src="/static/attraction/index.js"></script>
 </body>
 </html>

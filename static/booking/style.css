@@ -1,7 +1,99 @@
-
 .wrap{
     max-width: 1920px;
     margin: 0 auto;
+}
+
+hr{
+    background-color: #E8E8E8; 
+    height:1px; 
+    border:none;
+}
+
+input{
+    width: 192px;
+    height: 32px;
+    border: 1px solid #E8E8E8;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.danger{
+    color: #d9534f;
+}
+
+.info{
+    color: #168174;
+}
+
+.flex{
+    display: flex;
+}
+
+.justify-center	{
+    justify-content: center;
+}
+.justify-end{
+    justify-content: flex-end;
+}	
+
+.mx-15{
+    margin: 15px 0;
+}
+.mx-20{
+    margin: 20px 0;
+}
+.mx-25{
+    margin: 25px 0;
+}
+.pt-20{
+    padding-top: 20px;
+}
+.pt-15{
+    padding-top: 15px;
+}
+.pt-10{
+    padding-top: 10px;
+}
+.pt-5{
+    padding-top: 5px;
+}
+.px-15{
+    padding: 15px 0;
+}
+.px-10{
+    padding: 10px 0;
+}
+.px-5{
+    padding: 5px 0;
+}
+.pb-5{
+    padding-bottom: 15px;
+}
+.px-20{
+    padding: 20px 0;
+}
+
+.font-bold{
+    font-weight: 700;
+}
+.font-normal{
+    font-weight: 400;
+}
+
+.text-lg{
+    font-size: 19px;
+}
+
+.text-base{
+    font-size: 16px;
+}
+
+.primary-color{
+    color: #448899;
+}
+
+.secondary-color{
+    color: #666666;
 }
 
 /* ==== nav_bar ==== */
@@ -13,6 +105,7 @@
     top: 0px;
     background: #fff;
     z-index: 100;
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .navigation > .container{
@@ -32,10 +125,17 @@
     color: #448899;
 }
 
+.navigation .logo a{
+    text-decoration: none;
+    color: #448899;
+}
+
 .navigation ul{
     display: flex;
     flex-direction: row;
+    width: 176px;
 }
+
 .navigation ul > li{
     font-family: 'Noto Sans TC', sans-serif;
     font-style: normal;
@@ -47,35 +147,52 @@
     cursor: pointer;
 }
 
-.attraction{
-    width: 1200px;
-    margin: 94px auto 120px;
+.info_container{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: none;
 }
 
-.attraction .container{
+.emptystate_container{
+    max-width: 1000px;
+    margin: 35px auto 40px;
+    display: none;
+}
+
+.headline{
+    max-width: 1000px;
+    margin: 94px auto 30px;
+}
+
+.info{
+    max-width: 1000px;
+    margin: 0 auto 40px;
     display: flex;
+    flex-wrap: wrap;
 }
 
-.attraction .title{
+.info .title{
     font-family: 'Noto Sans TC';
     font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    color: #666666;
 }
 
-.attraction .slider{
-    width: 540px;
-    height: 406px;
+.info .picture{
+    width: 266px;
+    height: 200px;
+    margin: 0 8px;
 }
 
-.attraction .slider img{
+.info .picture img{
     object-fit: cover;
     width: 100%;
 }
 
-.attraction .slider, .attraction .profile{
-    margin: 0 15px;
+.info .content{
+    margin: 0 20px;
+}
+.info .icon{
+    margin-left: auto;
+    cursor: pointer;
 }
 
 
@@ -97,28 +214,143 @@
     margin: 15px 0 20px;
 }
 
-.profile .book_form{
-    background: #E8E8E8;
+.contact,
+.payment,
+.confirm{
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.confirm {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.confirm .confirm_btn{
+    font-weight: normal;
+    font-size: 19px;
+    display: inline-block;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    background: #448899;
     border-radius: 5px;
-    max-width: 600px;
-    height: 302px;
-    padding: 15px 20px;
+}
+
+ /* === SignIn and SignUp === */
+ .form_container{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    top:0;
+    z-index: 500;
+    display: none;
+ }
+ 
+ .signIn, .signUp{
+     opacity: 1;
+     position: relative;
+     width: 340px;
+     background: #FFFFFF;
+     box-shadow: 0px 4px 60px #AAAAAA;
+     border-radius: 6px; 
+     font-family: 'Noto Sans TC';
+     top: 80px;
+     left: 0;
+     right: 0;
+     margin: 0 auto;
+     display: block;
+}
+
+.signUp{
+    height: 332px;
+    display: none;
+}
+
+.signIn .decbar, .signUp .decbar{
+    position: absolute;
+    width: 340px;
+    height: 10px;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.signIn .close, .signUp .close{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 17px;
+    top: 27px;
+    cursor: pointer;
+}
+    
+.signIn .title, .signUp .title{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    color: #666666;
+    margin: 20px 0 10px;
+}
+
+.signIn , .signUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signIn .signInMessage,
+.signUp .signUpMessage{
+    margin: 10px;
+}
+
+.signIn input, .signUp input, 
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn{
+    width: 310px;
+    height: 47px;
+    background: #FFFFFF;    
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 5px 0;
+} 
+
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn {
+    background: #448899;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: 0px;
+    cursor: pointer;
+}
+
+.signIn .switch, .signUp .switch{
+    color: #666666;
+    margin: 5px 0 15px;
+    cursor: pointer;
+}
+
+.signIn input, .signUp input{
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0 0 15px;
     box-sizing: border-box;
 }
 
-.profile .book_form .text1{
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.profile .book_form .text2{
-    font-size: 16px;
-    font-weight: 400;
-    margin: 15px 0 ;
-}
-
-.infros {
-    margin: 50px auto 0;
+.logOutBtn,
+.signIn_signUp_btn{
+    display: none;
 }
 
  /* ==== footer ==== */
@@ -137,4 +369,33 @@ footer .copyright{
     font-style: normal;
     font-weight: bold;
     color: white;
+}
+
+@media screen and (max-width: 768px) {
+    .emptystate_container,
+    .info_container,
+    .headline
+    {
+        padding: 0 10px;
+    }
+    .info{
+        margin: 0 auto 30px;
+        flex-direction: column;
+    }
+
+    .info .content {
+        margin: 20px 0 10px;
+    }
+
+    .info .picture{
+        width: 100%;
+        height: 100%;
+        margin: 0 ;
+    }
+
+    .info .picture img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }

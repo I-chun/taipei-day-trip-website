@@ -10,6 +10,8 @@ app=Flask(
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
+app.secret_key = b'\x0b\xba\xbe\xa0\xf7\x1c\x18\xbb\x0b|H\xae\xe1,\xed\x9b'
+
 # Pages
 @app.route("/")
 def index():
@@ -26,4 +28,4 @@ def thankyou():
 
 app.register_blueprint(api)
 
-app.run(host='0.0.0.0',port=3000)
+app.run(port=3000)

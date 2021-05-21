@@ -39,13 +39,14 @@ const getBooking = async () =>{
     .then((response) => {
         return response.json(); 
     }).then((jsonData) => {
-        console.log( jsonData );
+
         if( jsonData.data == null ){
             info_container.style.display = "none";
             emptystate_container.style.display = "block";
         }else{
             attraction_name.textContent = jsonData.data.attraction.name;
             attraction_date.textContent = jsonData.data.date;
+            console.log(jsonData.data)
             if ( jsonData.data.time == "morning" ){
                 attraction_time.textContent = "早上 9 點到下午 4 點";
             }
@@ -64,6 +65,13 @@ const getBooking = async () =>{
 
 signInSignUpBtn.addEventListener('click', function(e){
     formContainer.style.display = "block";
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+    document.querySelector('#signUpName').value = "";
+    document.querySelector('#signUpEmail').value = "";
+    document.querySelector('#signUpPassword').value = "";
+    document.querySelector('#signInEmail').value = "";
+    document.querySelector('#signInPassword').value = "";
 });
 
 formClose.forEach( item =>{
@@ -78,9 +86,23 @@ formSwitch.forEach( item =>{
         if( document.querySelector('.signUp').style.display == 'none'){
             document.querySelector('.signUp').style.display = 'flex';
             document.querySelector('.signIn').style.display = 'none';
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
         }else{
             document.querySelector('.signUp').style.display = 'none';
             document.querySelector('.signIn').style.display = 'flex';
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
         }
     });
 });
@@ -105,6 +127,7 @@ const getUser = async () =>{
             emptystate_container.style.display = "block";
             info_container.style.display = "none";
             user_name1.textContent = "使用者";
+            window.location.href = '/';
         }else{         
             logOutBtn.style.display = 'block';
             signInSignUpBtn.style.display = 'none';
@@ -171,6 +194,10 @@ document.querySelector('.signInSubmitBtn').addEventListener('click', function(e)
     let devurl = "http://54.248.121.92";
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
+
+    
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
 
     let signInformData = {
         "email": document.querySelector('#signInEmail').value,
@@ -247,3 +274,34 @@ document.querySelector('.logOutBtn').addEventListener('click', function(e){
         console.error('錯誤:', err);
     });
 });
+
+
+document.querySelector('.delete').addEventListener('click', function(e){
+
+    let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url = devurl + ':3000/api/booking' ;
+
+    const response = fetch( url, {
+        method: 'DELETE',
+        cache: "no-cache", 
+        credentials: "same-origin", 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+    .then((response) => {
+        return response.json(); 
+    }).then((jsonData) => {
+       
+        logOutBtn.style.display = 'none';
+        signInSignUpBtn.style.display = 'block';
+        location.reload();
+        
+    }).catch((err) => {
+        console.error('錯誤:', err);
+    });
+});
+

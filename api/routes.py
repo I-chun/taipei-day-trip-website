@@ -27,7 +27,6 @@ def getAttraction(attractionid):
         if cursor.rowcount > 0 : 
             result = cursor.fetchone()
 
-            print( result )
             # 設定data資料
             json_var = {
                 "data": {
@@ -156,8 +155,7 @@ def getAttractions():
 def getUser(): 
 
     email = ""
-
-    if session['email']:
+    if session.get('email'):
         email = session['email']
     else:
         json_var = {"data": None}
@@ -187,7 +185,7 @@ def signup():
 
     data = request.get_json()
 
-    if data["name"] == "" or data["email"] == "" or data['password'] is "":
+    if data["name"] == "" or data["email"] == "" or data['password'] == "":
         json_var = {
               "error": True,
               "message": "請輸入完整註冊資料"
@@ -285,7 +283,7 @@ def signout():
 def getBooking(): 
 
     if session['loginStatus'] == 'y':
-        if session['booking']:
+        if session.get('booking'):
             json_var = session['booking']
             return jsonify(json_var), 200
         else:
@@ -302,7 +300,7 @@ def getBooking():
 @api.route("/booking", methods=["POST"])
 def setBooking(): 
 
-    # if session['loginStatus'] == 'y':
+    if session['loginStatus'] == 'y':
         data = request.get_json()
 
         if data["attractionId"] == "" or data['date'] == "" or data['time'] == "" or data['price'] == "":
@@ -356,18 +354,18 @@ def setBooking():
                 "message": "伺服器內部錯誤"
             }
             return jsonify(json_var), 500
-
-    # else:
-    #     json_var = { 
-    #         "error": True,
-    #         "message": "未登入系統，拒絕存取"
-    #     }
-    #     return jsonify(json_var), 403
+    else:
+        json_var = { 
+            "error": True,
+            "message": "未登入系統，拒絕存取"
+        }
+        return jsonify(json_var), 403
 
 # 刪除目前的預定行程
 @api.route("/booking", methods=["DELETE"])
 def deleteBooking(): 
-    if session['loginStatus'] == 'y':
+    if session.get('booking'):
+        session['booking'] = False
         json_var = {"ok": True}
         return jsonify(json_var), 200
     else:

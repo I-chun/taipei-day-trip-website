@@ -13,6 +13,7 @@ var logOutBtn = document.querySelector('.logOutBtn');
 var formContainer = document.querySelector('.form_container');
 var formClose = document.querySelectorAll('.close');
 var formSwitch = document.querySelectorAll('.switch');
+let isLogin = false;
 
 window.onload = function(){
     getData().then(()=>{
@@ -130,6 +131,13 @@ searchBtn.addEventListener('click', function(e){
 
 signInSignUpBtn.addEventListener('click', function(e){
     formContainer.style.display = "block";
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+    document.querySelector('#signUpName').value = "";
+    document.querySelector('#signUpEmail').value = "";
+    document.querySelector('#signUpPassword').value = "";
+    document.querySelector('#signInEmail').value = "";
+    document.querySelector('#signInPassword').value = "";
 });
 
 formClose.forEach( item =>{
@@ -144,9 +152,23 @@ formSwitch.forEach( item =>{
         if( document.querySelector('.signUp').style.display == 'none'){
             document.querySelector('.signUp').style.display = 'flex';
             document.querySelector('.signIn').style.display = 'none';
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
         }else{
             document.querySelector('.signUp').style.display = 'none';
             document.querySelector('.signIn').style.display = 'flex';
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
         }
     });
 });
@@ -168,9 +190,11 @@ const getUser = async () =>{
         if( jsonData.data == null ) {
             logOutBtn.style.display = 'none';
             signInSignUpBtn.style.display = 'block';
+            isLogin = false;
         }else{
             logOutBtn.style.display = 'block';
             signInSignUpBtn.style.display = 'none';
+            isLogin = true;
         }
     }).catch((err) => {
         console.error('錯誤:', err);
@@ -183,6 +207,9 @@ document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e)
     let devurl = "http://54.248.121.92";
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
 
     let signUpformData = {
         "name": document.querySelector('#signUpName').value,
@@ -229,6 +256,9 @@ document.querySelector('.signInSubmitBtn').addEventListener('click', function(e)
     let devurl = "http://54.248.121.92";
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
 
     let signInformData = {
         "email": document.querySelector('#signInEmail').value,
@@ -303,3 +333,12 @@ document.querySelector('.logOutBtn').addEventListener('click', function(e){
     });
 });
 
+document.querySelector('.booking').addEventListener('click', function(e){
+    if( isLogin ){
+        window.location.href = '/booking';
+    }else{
+        formContainer.style.display = "block";
+        document.querySelector(".signInMessage").textContent = "請先登入會員";
+        document.querySelector(".signInMessage").classList.add("danger");
+    }
+})

@@ -12,14 +12,16 @@ const formContainer = document.querySelector('.form_container');
 const formClose = document.querySelectorAll('.close');
 const formSwitch = document.querySelectorAll('.switch');
 const booking_message = document.querySelector('.bookingMessage');
-let isLogIn = false;
+let isLogin = false;
 
 // models
 let models={
     data: null,
     attraction_id: window.location.pathname.split('/')[2],
     getProductData:function(){
-        let url = "http://127.0.0.1:3000/api/attraction/" + this.attraction_id ;
+        let devurl = "http://54.248.121.92";
+        let testurl = "http://127.0.0.1";
+        let url = devurl + ":3000/api/attraction/" + this.attraction_id ;
         return fetch(url).then((response)=>{
             return response.json();
         }).then((result)=>{
@@ -144,6 +146,14 @@ window.onload = function(){
 
 signInSignUpBtn.addEventListener('click', function(e){
     formContainer.style.display = "block";
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+    document.querySelector('#signUpName').value = "";
+    document.querySelector('#signUpEmail').value = "";
+    document.querySelector('#signUpPassword').value = "";
+    document.querySelector('#signInEmail').value = "";
+    document.querySelector('#signInPassword').value = "";
+
 });
 
 formClose.forEach( item =>{
@@ -158,9 +168,23 @@ formSwitch.forEach( item =>{
         if( document.querySelector('.signUp').style.display == 'none'){
             document.querySelector('.signUp').style.display = 'flex';
             document.querySelector('.signIn').style.display = 'none';
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
         }else{
             document.querySelector('.signUp').style.display = 'none';
             document.querySelector('.signIn').style.display = 'flex';
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
         }
     });
 });
@@ -182,11 +206,11 @@ const getUser = async () =>{
         if( jsonData.data == null ) {
             logOutBtn.style.display = 'none';
             signInSignUpBtn.style.display = 'block';
-            isLogIn = false;
+            isLogin = false;
         }else{
             logOutBtn.style.display = 'block';
             signInSignUpBtn.style.display = 'none';
-            isLogIn = true;
+            isLogin = true;
         }
     }).catch((err) => {
         console.error('錯誤:', err);
@@ -199,52 +223,47 @@ document.querySelector('.book_btn').addEventListener('click', function(e){
     const bookingTime = document.querySelector("input[name=time]:checked");
     const bookingPrice = document.querySelector(".price").textContent;
 
-    if ( isLogIn ){
+    if ( bookingDate == "" || bookingTime == null){
 
-        if ( bookingDate == "" || bookingTime == null){
-
-            booking_message.textContent = "請選擇日期及時間";
-            booking_message.classList.add("danger");
-
-        }else{
-
-            let url = "";
-            url = 'http://127.0.0.1:3000/api/booking';
-        
-            let bookingData = {
-                "attractionId" :  window.location.pathname.split('/')[2],
-                "date": bookingDate,
-                "time": bookingTime,
-                "price": bookingPrice,
-            };
-                
-            const response = fetch( url, {
-                method: 'POST',
-                cache: "no-cache", 
-                credentials: "same-origin", 
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify( bookingData )
-            })
-            .then((response) => {
-                return response.json(); 
-            }).then((jsonData) => {
-                if ( jsonData.ok ){
-                    window.location.replace("/booking");
-                }
-        
-            }).catch((err) => {
-                console.error('錯誤:', err);
-            });
-        }
+        booking_message.textContent = "請選擇日期及時間";
+        booking_message.classList.add("danger");
 
     }else{
-        formContainer.style.display = "block";
-        document.querySelector(".signInMessage").textContent = "請先登入會員";
-        document.querySelector(".signInMessage").classList.add("danger");
 
+        let url = "";
+        url = 'http://127.0.0.1:3000/api/booking';
+    
+        let bookingData = {
+            "attractionId" :  window.location.pathname.split('/')[2],
+            "date": bookingDate,
+            "time": bookingTime.value,
+            "price": bookingPrice,
+        };
+            
+        const response = fetch( url, {
+            method: 'POST',
+            cache: "no-cache", 
+            credentials: "same-origin", 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify( bookingData )
+        })
+        .then((response) => {
+            return response.json(); 
+        }).then((jsonData) => {
+            if ( jsonData.ok ){
+                window.location.replace("/booking");
+            }else if( jsonData.message == "未登入系統，拒絕存取" ){
+                formContainer.style.display = "block";
+                document.querySelector(".signInMessage").textContent = "請先登入會員";
+                document.querySelector(".signInMessage").classList.add("danger");
+            }
+    
+        }).catch((err) => {
+            console.error('錯誤:', err);
+        });
     }
 });
 
@@ -254,6 +273,10 @@ document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e)
     let devurl = "http://54.248.121.92";
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
+
+    
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
 
     let signUpformData = {
         "name": document.querySelector('#signUpName').value,
@@ -301,6 +324,9 @@ document.querySelector('.signInSubmitBtn').addEventListener('click', function(e)
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
 
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+
     let signInformData = {
         "email": document.querySelector('#signInEmail').value,
         "password": document.querySelector('#signInPassword').value
@@ -321,13 +347,12 @@ document.querySelector('.signInSubmitBtn').addEventListener('click', function(e)
     }).then((jsonData) => {
 
         if( jsonData.ok ){
-            isLogIn = true;
             document.querySelector(".signInMessage").textContent = "登入成功";
-            document.querySelector(".signInMessage").classList.add("info");
-
+            document.querySelector(".signInMessage").classList.add("info"); 
 
             let t = setTimeout( function(e){
                 formContainer.style.display = "none";
+                booking_message.textContent = "";
                 getUser();
                 clearTimeout(t);
             },1000);
@@ -368,7 +393,6 @@ document.querySelector('.logOutBtn').addEventListener('click', function(e){
         return response.json(); 
     }).then((jsonData) => {
 
-        isLogIn = false;
         logOutBtn.style.display = 'none';
         signInSignUpBtn.style.display = 'block';
         
@@ -376,3 +400,14 @@ document.querySelector('.logOutBtn').addEventListener('click', function(e){
         console.error('錯誤:', err);
     });
 });
+
+
+document.querySelector('.booking').addEventListener('click', function(e){
+    if( isLogin ){
+        window.location.href = '/booking';
+    }else{
+        formContainer.style.display = "block";
+        document.querySelector(".signInMessage").textContent = "請先登入會員";
+        document.querySelector(".signInMessage").classList.add("danger");
+    }
+})

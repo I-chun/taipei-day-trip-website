@@ -231,7 +231,9 @@ document.querySelector('.book_btn').addEventListener('click', function(e){
     }else{
 
         let url = "";
-        url = 'http://127.0.0.1:3000/api/booking';
+        let devurl = "http://54.248.121.92";
+        let testurl = "http://127.0.0.1";
+        url = devurl + ':3000/api/booking';
     
         let bookingData = {
             "attractionId" :  window.location.pathname.split('/')[2],

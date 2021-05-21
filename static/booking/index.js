@@ -26,7 +26,9 @@ window.onload = function(){
 const getBooking = async () =>{
 
     let url = "";
-    url = 'http://127.0.0.1:3000/api/booking';
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url =  devurl + ":3000/api/booking";
     
     const response = await fetch( url, {
         cache: "no-cache", 
@@ -46,7 +48,6 @@ const getBooking = async () =>{
         }else{
             attraction_name.textContent = jsonData.data.attraction.name;
             attraction_date.textContent = jsonData.data.date;
-            console.log(jsonData.data)
             if ( jsonData.data.time == "morning" ){
                 attraction_time.textContent = "早上 9 點到下午 4 點";
             }

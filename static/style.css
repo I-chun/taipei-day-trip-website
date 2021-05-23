@@ -1,3 +1,11 @@
+.danger{
+    color: #d9534f;
+}
+
+.info{
+    color: #168174;
+}
+
 input{
     padding: 0px;
     border: 0;
@@ -41,6 +49,7 @@ input:focus::placeholder {
     top: 0px;
     background: #fff;
     z-index: 100;
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .navigation > .container{
@@ -68,6 +77,7 @@ input:focus::placeholder {
 .navigation ul{
     display: flex;
     flex-direction: row;
+    width: 176px;
 }
 .navigation ul > li{
     font-family: 'Noto Sans TC', sans-serif;
@@ -244,7 +254,6 @@ input:focus::placeholder {
      opacity: 1;
      position: relative;
      width: 340px;
-     height: 275px;  
      background: #FFFFFF;
      box-shadow: 0px 4px 60px #AAAAAA;
      border-radius: 6px; 
@@ -298,8 +307,13 @@ input:focus::placeholder {
     flex-direction: column;
 }
 
+.signIn .signInMessage,
+.signUp .signUpMessage{
+    margin: 10px;
+}
+
 .signIn input, .signUp input, 
-.signIn .btn, .signUp .btn{
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn{
     width: 310px;
     height: 47px;
     background: #FFFFFF;    
@@ -309,7 +323,7 @@ input:focus::placeholder {
     margin: 5px 0;
 } 
 
-.signIn .btn, .signUp .btn {
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn {
     background: #448899;
     font-style: normal;
     font-weight: normal;
@@ -336,6 +350,10 @@ input:focus::placeholder {
     box-sizing: border-box;
 }
 
+.logOutBtn,
+.signIn_signUp_btn{
+    display: none;
+}
 
  /* ==== footer ==== */
 footer{

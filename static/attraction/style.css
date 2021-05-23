@@ -4,9 +4,26 @@
     margin: 0 auto;
 }
 
+.danger{
+    color: #d9534f;
+}
+
+.info{
+    color: #168174;
+}
+
+.mx-5{
+    margin: 5px 0;
+}
+
 .mx-15{
     margin: 15px 0;
 }
+
+.mt-20{
+    margin: 20px 0 0;
+}
+
 .mx-20{
     margin: 20px 0;
 }
@@ -35,6 +52,7 @@
     top: 0px;
     background: #fff;
     z-index: 100;
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .navigation > .container{
@@ -62,6 +80,7 @@
 .navigation ul{
     display: flex;
     flex-direction: row;
+    width: 176px;
 }
 .navigation ul > li{
     font-family: 'Noto Sans TC', sans-serif;
@@ -279,6 +298,7 @@
     padding: 10px 20px;
     background: #448899;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .infros {
@@ -306,6 +326,122 @@
         margin: 10px;
         flex-basis: 100%;
     }   
+}
+
+ /* === SignIn and SignUp === */
+ .form_container{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    top:0;
+    z-index: 500;
+    display: none;
+ }
+ 
+ .signIn, .signUp{
+     opacity: 1;
+     position: relative;
+     width: 340px;
+     background: #FFFFFF;
+     box-shadow: 0px 4px 60px #AAAAAA;
+     border-radius: 6px; 
+     font-family: 'Noto Sans TC';
+     top: 80px;
+     left: 0;
+     right: 0;
+     margin: 0 auto;
+     display: block;
+}
+
+.signUp{
+    height: 332px;
+    display: none;
+}
+
+.signIn .decbar, .signUp .decbar{
+    position: absolute;
+    width: 340px;
+    height: 10px;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.signIn .close, .signUp .close{
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 17px;
+    top: 27px;
+    cursor: pointer;
+}
+    
+.signIn .title, .signUp .title{
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    color: #666666;
+    margin: 20px 0 10px;
+}
+
+.signIn , .signUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signIn .signInMessage,
+.signUp .signUpMessage{
+    margin: 10px;
+}
+
+.signIn input, .signUp input, 
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn{
+    width: 310px;
+    height: 47px;
+    background: #FFFFFF;    
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 5px 0;
+} 
+
+.signIn .signInSubmitBtn, .signUp .signUpSubmitBtn {
+    background: #448899;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: 0px;
+    cursor: pointer;
+}
+
+.signIn .switch, .signUp .switch{
+    color: #666666;
+    margin: 5px 0 15px;
+    cursor: pointer;
+}
+
+.signIn input, .signUp input{
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0 0 15px;
+    box-sizing: border-box;
+}
+
+.logOutBtn,
+.signIn_signUp_btn{
+    display: none;
 }
 
  /* ==== footer ==== */

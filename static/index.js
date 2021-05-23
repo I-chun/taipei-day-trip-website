@@ -9,12 +9,16 @@ var moreBtn = document.querySelector('.loadMore');
 var searchBtn = document.querySelector('.searchBtn');
 var nodData = document.querySelector('.nodata');
 var signInSignUpBtn = document.querySelector('.signIn_signUp_btn');
+var logOutBtn = document.querySelector('.logOutBtn');
 var formContainer = document.querySelector('.form_container');
-var formClose = document.querySelector('.close');
-var formSwitch = document.querySelector('.switch');
+var formClose = document.querySelectorAll('.close');
+var formSwitch = document.querySelectorAll('.switch');
+let isLogin = false;
 
 window.onload = function(){
-    getData();
+    getData().then(()=>{
+        getUser();
+    })
 }
 
 function removeAllChildNodes(parent) {
@@ -115,6 +119,7 @@ var intersectionObserver = new IntersectionObserver(function(entries) {
 
 intersectionObserver.observe(document.querySelector('footer'));
 
+
 searchBtn.addEventListener('click', function(e){
     nodData.style.display="none"; 
     keyword = document.querySelector(".keyword").value;
@@ -124,21 +129,216 @@ searchBtn.addEventListener('click', function(e){
     removeAllChildNodes(container);
 });
 
-
 signInSignUpBtn.addEventListener('click', function(e){
     formContainer.style.display = "block";
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+    document.querySelector('#signUpName').value = "";
+    document.querySelector('#signUpEmail').value = "";
+    document.querySelector('#signUpPassword').value = "";
+    document.querySelector('#signInEmail').value = "";
+    document.querySelector('#signInPassword').value = "";
 });
 
-formClose.addEventListener('click', function(e){
-    formContainer.style.display = "none";
+formClose.forEach( item =>{
+    item.addEventListener('click', function(e){
+        formContainer.style.display = "none";
+    })
 });
 
-formSwitch.addEventListener('click', function(e){
-    if( document.querySelector('signUp').style.display == 'none'){
-        document.querySelector('signUp').style.display = 'block';
-        document.querySelector('signIn').style.display = 'none';
+document.querySelector('.signUp').style.display = 'none';
+formSwitch.forEach( item =>{
+    item.addEventListener('click', function(e){
+        if( document.querySelector('.signUp').style.display == 'none'){
+            document.querySelector('.signUp').style.display = 'flex';
+            document.querySelector('.signIn').style.display = 'none';
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+        }else{
+            document.querySelector('.signUp').style.display = 'none';
+            document.querySelector('.signIn').style.display = 'flex';
+            document.querySelector('#signUpName').value = "";
+            document.querySelector('#signUpEmail').value = "";
+            document.querySelector('#signUpPassword').value = "";
+            document.querySelector('#signInEmail').value = "";
+            document.querySelector('#signInPassword').value = "";
+            document.querySelector(".signInMessage").textContent = "";
+            document.querySelector(".signUpMessage").textContent = "";
+        }
+    });
+});
+
+const getUser = async () =>{
+    let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url = devurl + ':3000/api/user' ;
+
+    const response = await fetch( url, {
+        method: 'GET',
+        cache: "no-cache", 
+        credentials: "same-origin", 
+    })
+    .then((response) => {
+        return response.json(); 
+    }).then((jsonData) => {
+        if( jsonData.data == null ) {
+            logOutBtn.style.display = 'none';
+            signInSignUpBtn.style.display = 'block';
+            isLogin = false;
+        }else{
+            logOutBtn.style.display = 'block';
+            signInSignUpBtn.style.display = 'none';
+            isLogin = true;
+        }
+    }).catch((err) => {
+        console.error('錯誤:', err);
+    });
+}
+
+document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e){
+
+    let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url = devurl + ':3000/api/user' ;
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+
+    let signUpformData = {
+        "name": document.querySelector('#signUpName').value,
+        "email": document.querySelector('#signUpEmail').value,
+        "password": document.querySelector('#signUpPassword').value
+    };
+
+    const response = fetch( url, {
+        method: 'POST',
+        cache: "no-cache", 
+        credentials: "same-origin", 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( signUpformData )
+    })
+    .then((response) => {
+        return response.json(); 
+    }).then((jsonData) => {
+
+        if( jsonData.ok ){
+            document.querySelector(".signUpMessage").textContent = "註冊成功";
+            document.querySelector(".signUpMessage").classList.add("info");
+
+            let t = setTimeout( function(e){
+                formContainer.style.display = "none";
+                getUser();
+                clearTimeout(t);
+            },1000);
+        }else{
+            document.querySelector(".signUpMessage").textContent = jsonData.message;
+            document.querySelector(".signUpMessage").classList.add("danger");
+        }
+
+    }).catch((err) => {
+        console.error('錯誤:', err);
+    });
+});
+
+document.querySelector('.signInSubmitBtn').addEventListener('click', function(e){
+
+    let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url = devurl + ':3000/api/user' ;
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+
+    let signInformData = {
+        "email": document.querySelector('#signInEmail').value,
+        "password": document.querySelector('#signInPassword').value
+    };
+
+    const response = fetch( url, {
+        method: 'PATCH',
+        cache: "no-cache", 
+        credentials: "same-origin", 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( signInformData )
+    })
+    .then((response) => {
+        return response.json(); 
+    }).then((jsonData) => {
+
+        if( jsonData.ok ){
+            document.querySelector(".signInMessage").textContent = "登入成功";
+            document.querySelector(".signInMessage").classList.add("info");
+
+            let t = setTimeout( function(e){
+                formContainer.style.display = "none";
+                getUser();
+                clearTimeout(t);
+            },1000);
+
+        }else{
+            document.querySelector(".signInMessage").textContent = jsonData.message;
+            document.querySelector(".signInMessage").classList.add("danger");
+        }
+
+    }).catch((err) => {
+        console.error('錯誤:', err);
+    });
+});
+
+document.querySelector('.logOutBtn').addEventListener('click', function(e){
+
+    let url = "";
+    let devurl = "http://54.248.121.92";
+    let testurl = "http://127.0.0.1";
+    url = devurl + ':3000/api/user' ;
+
+    let signUpformData = {
+        "email": document.querySelector('#signInEmail').value,
+        "password": document.querySelector('#signInPassword').value
+    };
+
+    const response = fetch( url, {
+        method: 'DELETE',
+        cache: "no-cache", 
+        credentials: "same-origin", 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify( signUpformData )
+    })
+    .then((response) => {
+        return response.json(); 
+    }).then((jsonData) => {
+       
+        logOutBtn.style.display = 'none';
+        signInSignUpBtn.style.display = 'block';
+        
+    }).catch((err) => {
+        console.error('錯誤:', err);
+    });
+});
+
+document.querySelector('.booking').addEventListener('click', function(e){
+    if( isLogin ){
+        window.location.href = '/booking';
     }else{
-        document.querySelector('signUp').style.display = 'none';
-        document.querySelector('signIn').style.display = 'block';
+        formContainer.style.display = "block";
+        document.querySelector(".signInMessage").textContent = "請先登入會員";
+        document.querySelector(".signInMessage").classList.add("danger");
     }
-});
+})

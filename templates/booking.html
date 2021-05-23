@@ -12,53 +12,124 @@
 
 </head>
 <body class="wrap">
+
     <nav class="navigation">
         <div class="container">
-            <h1 class="logo">台北一日遊</h1>
+            <h1 class="logo"><a href="/">台北一日遊</a></h1>
             <ul>
-                <li>預定行程</li>
+                <li class="booking">預定行程</li>
                 <li class="signIn_signUp_btn">登入/註冊</li>
+                <li class="logOutBtn">登出系統</li>
             </ul>
         </div>
     </nav>
 
-    <section class="attraction">
-        <div class="container">
-
-            <div class="slider">
-                <img src="http://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000848.jpg" alt="">
-            </div>
-
-            <div class="profile">
-                <h3 class="name">平安鐘</h3>
-                <p class="text1"><span class="category">公共藝術</span> at <span class="mrt">忠孝復興</span></p>
-                <div class="book_form">
-                    <p class="title">訂購導覽行程</p>
-                    <p class="text2">以此景點為中心的一日行程，帶您探索城市角落故事</p>
-                    <br>
-                    <label class="">選擇日期：</label><input type="date" name="" id="">
-                    <label class="">選擇時間：</label><input type="radio" name="" id="">上半天<input type="radio" name="" id="">下半天
-                    <p class="">導覽費用：</p><span>新台幣 2000 元</span>
-                    <div class="book_btn">開始預訂行程</div>
-                </div>
-            </div>
+    <div class="form_container">
+        <div class="signIn">
+            <div class="decbar"></div>
+            <div class="close"><img src="../static/img/icon_close.png" alt=""></div>
+            <h3 class="title">登入會員帳號</h3>
+            <input type="text" name="email" id="signInEmail" placeholder="輸入電子信箱">
+            <input type="password" name="password" id="signInPassword" placeholder="輸入密碼">
+            <div class="signInMessage"></div>
+            <div class="signInSubmitBtn">登入帳號</div>
+            <div class="switch">還沒有帳戶？點此註冊</div>
         </div>
+    
+        <div class="signUp">
+            <div class="decbar"></div>
+            <div class="close"><img src="../static/img/icon_close.png" alt=""></div>
+            <h3 class="title">註冊會員帳號</h3>
+            <input type="text" name="name" id="signUpName" placeholder="輸入姓名">
+            <input type="email" name="email" id="signUpEmail" placeholder="輸入電子郵件">
+            <input type="password" name="password" id="signUpPassword" placeholder="輸入密碼">
+            <div class="signUpMessage"></div>
+            <div class="signUpSubmitBtn">註冊新帳戶</div>
+            <div class="switch">已經有帳戶了？點此登入</div>
+        </div>
+    </div>
+
+    <div class="headline text-lg secondary-color font-bold">
+        您好，<span class="user_name1"></span>，待預訂的行程如下：
+    </div>
+
+    <div class="info_container">
+
+        <section class="info">
+            <div class="picture">
+                <img class="image" src="" alt="">
+            </div>
+            <div class="content">
+                <h3 class="primary-color text-base font-bold pt-5 pb-5">台北一日遊：<span class="name"></span></h3>
+                <div class="secondary-color pt-15"><span class="font-bold">日期：</span><span class="date"></span></div>
+                <div class="secondary-color pt-15"><span class="font-bold">時間：</span><span class="time"></span></div>
+                <div class="secondary-color pt-15"><span class="font-bold">費用：</span>新台幣 <span class="price"></span> 元</div>
+                <div class="secondary-color pt-15"><span class="font-bold">地點：</span><span class="address"></span></div>
+            </div>
+            <div class="icon">
+                <img class="delete" src="../static/img/icon_delete.png" alt="">
+            </div>
+        </section>
 
         <hr>
-        <section class="infros">            
-            <p class="description">平安鐘祈求大家的平安，這是為了紀念921地震週年的設計，在喧鬧的廣場上每個小時鳴鐘，保佑平安，祈禱臺灣不會再發生這樣的天災。雙手合十加上108個黃色的琉璃乳丁，隨著緩緩流下的水，在底下的一個小噴泉噴出。雙手合十的意義，一個是祈福，一個是包容，教我們要包容這樣的改變，撫平這樣的傷口。下面的水緩緩流出，代表著人的生命力是不斷地延續下去。緩緩地鐘聲，卻帶來心中的寧靜。 這個平安鐘是由建築師姚仁喜與琉璃創作家王俠軍共同設計，長6公尺、寬5公尺，以鑄銅製成，由法鼓山文教基金會全額出資。平安鐘點綴都市景觀，不時提醒大家，面對刻骨銘心的災難痛苦，更應該有謙卑的一顆心。</p>
-            <p class="title">景點地址：</p>
-            <p class="address">臺北市 大安區忠孝東路4段</p>
-            <p class="title">交通方式：</p>
-            <p class="transport">捷運站名：忠孝復興站4號出口1.公車：204、212、212直、232、232副、262、262(區間)、278、299、521、605、605(副)、605(新台五線)、667、903、忠孝新幹線至頂好市場站 2.車位：太平洋崇光百貨地下停車場或市民大道附近地下停車場</p>
+
+        <section class="contact secondary-color">
+            <p class="font-bold text-lg pt-5 pb-5">您的聯絡資訊</p>     
+            <div class="pt-15">
+                <label class="">聯絡姓名：
+                    <input type="text" name="user_name2" id="name">
+                </label>
+            </div>   
+            <div class="pt-15">
+                <label class="">連絡信箱：
+                    <input type="email" name="user_email" id="email">
+                </label>
+            </div>
+            <div class="pt-15">
+                <label class="">手機號碼：
+                    <input type="text" name="user_phone" id="phone">
+                </label>
+            </div>
+            <p class="font-bold pt-20">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
         </section>
-    </section>
+    
+        <hr>
+
+        <section class="payment secondary-color">            
+            <p class="font-bold text-lg pt-5 pb-5">信用卡付款資訊</p>
+            <div class="pt-15">
+                <label class="">卡片號碼：
+                    <input type="text" name="name" id="name" placeholder="**** **** **** ****">
+                </label>
+            </div>
+            <div class="pt-15">
+                <label class="">過期時間：
+                    <input type="email" name="email" id="email" placeholder="MM / YY">
+                </label>
+            </div>
+            <div class="pt-15">
+                <label class="">驗證密碼：
+                    <input type="text" name="name" id="name" placeholder="CVV">
+                </label>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="confirm secondary-color flex">
+            <div class="font-bold">總價：新台幣 <span class="total_price">2000</span> 元</div>
+            <div class="confirm_btn mx-25">確認訂購並付款</div>
+        </section>
+    </div>
+
+    <div class="emptystate_container">
+        <p class="secondary-color">目前沒有任何待預訂的行程</p>
+    </div>
 
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
-    <script>var attraction_id = '{{ id }}'; </script>
-    <script src="/static/booling/index.js"></script>
+    <script src="/static/booking/index.js"></script>
 </body>
 </html>

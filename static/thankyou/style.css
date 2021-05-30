@@ -1,37 +1,3 @@
-.tpfield {
-    width: 192px;
-    height: 32px;
-    border: 1px solid #E8E8E8;
-    box-sizing: border-box;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-.tpfield input{
-    padding: 0 0 0 5px;
-    box-sizing: border-box;
-}
-
-button.confirm_btn[disabled]{
-    cursor: not-allowed;
-    filter: alpha(opacity=65);
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    opacity: .65;
-}
-
-button.confirm_btn{
-    border: 1px solid transparent;
-    cursor: pointer;
-}
-
-.tappay-field-focus {
-    border-color: #66afe9;
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-}
-
 .wrap{
     max-width: 1920px;
     margin: 0 auto;
@@ -72,6 +38,10 @@ input{
 
 .items-center{
     align-items: center;
+}
+
+.text-center{
+    text-align: center;
 }
 
 .mx-15{
@@ -185,94 +155,17 @@ input{
     cursor: pointer;
 }
 
-.info_container{
-    max-width: 1200px;
-    margin: 0 auto;
-    display: none;
-}
-
-.emptystate_container{
-    max-width: 1000px;
-    margin: 35px auto 40px;
-    display: none;
-}
 
 .headline{
     max-width: 1000px;
-    margin: 94px auto 30px;
+    margin: 94px auto 80px;
 }
 
-.info{
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.info .title{
-    font-family: 'Noto Sans TC';
-    font-style: normal;
-}
-
-.info .picture{
-    width: 266px;
-    height: 200px;
-    margin: 0 8px;
-}
-
-.info .picture img{
-    object-fit: cover;
-    width: 100%;
-}
-
-.info .content{
-    margin: 0 20px;
-}
-.info .icon{
-    margin-left: auto;
-    cursor: pointer;
-}
-
-
-/* Header 3 - Bold 24(24) */
-.profile{
-    color: #666666;
-    font-family: 'Noto Sans TC';
-    margin: 0 auto 40px;
-}
-
-.profile .name{
-    font-weight: bold;
-    font-size: 24px;
-}
-
-.profile > .text1{
-    font-size: 16px;
-    font-weight: 400;
-    margin: 15px 0 20px;
-}
-
-.contact,
-.payment,
-.confirm{
-    max-width: 1000px;
-    margin: 40px auto;
-}
-
-.confirm {
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.confirm .confirm_btn{
-    font-weight: normal;
-    font-size: 19px;
-    display: inline-block;
-    text-align: center;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    background: #448899;
-    border-radius: 5px;
+@media screen and (max-width: 768px) {
+    .headline
+    {
+        padding: 0 10px;
+    }
 }
 
  /* === SignIn and SignUp === */

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/reset.css">
+    <link rel="stylesheet" href="/static/thankyou/style.css">
+
+</head>
+<body class="wrap">
+    <nav class="navigation">
+        <div class="container">
+            <h1 class="logo"><a href="/">台北一日遊</a></h1>
+            <ul>
+                <li class="booking">預定行程</li>
+                <li class="signIn_signUp_btn">登入/註冊</li>
+                <li class="logOutBtn">登出系統</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form_container">
+        <div class="signIn">
+            <div class="decbar"></div>
+            <div class="close"><img src="../static/img/icon_close.png" alt=""></div>
+            <h3 class="title">登入會員帳號</h3>
+            <input type="text" name="email" id="signInEmail" placeholder="輸入電子信箱">
+            <input type="password" name="password" id="signInPassword" placeholder="輸入密碼">
+            <div class="signInMessage"></div>
+            <div class="signInSubmitBtn">登入帳號</div>
+            <div class="switch">還沒有帳戶？點此註冊</div>
+        </div>
+    
+        <div class="signUp">
+            <div class="decbar"></div>
+            <div class="close"><img src="../static/img/icon_close.png" alt=""></div>
+            <h3 class="title">註冊會員帳號</h3>
+            <input type="text" name="name" id="signUpName" placeholder="輸入姓名">
+            <input type="email" name="email" id="signUpEmail" placeholder="輸入電子郵件">
+            <input type="password" name="password" id="signUpPassword" placeholder="輸入密碼">
+            <div class="signUpMessage"></div>
+            <div class="signUpSubmitBtn">註冊新帳戶</div>
+            <div class="switch">已經有帳戶了？點此登入</div>
+        </div>
+    </div>
+
+    <div class="headline text-lg secondary-color font-bold text-center">
+        感謝你的預定，你的訂單編號為 : <span class="order_number"></span>
+    </div>
+
+    <footer>
+        <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
+    </footer>
+
+    <script src="/static/thankyou/index.js"></script>
+</body>
+</html>

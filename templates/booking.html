@@ -77,12 +77,12 @@
             <p class="font-bold text-lg pt-5 pb-5">您的聯絡資訊</p>     
             <div class="pt-15">
                 <label class="">聯絡姓名：
-                    <input type="text" name="user_name2" id="name">
+                    <input type="text" name="user_name2" id="name" required>
                 </label>
             </div>   
             <div class="pt-15">
                 <label class="">連絡信箱：
-                    <input type="email" name="user_email" id="email">
+                    <input type="email" name="user_email" id="email" required>
                 </label>
             </div>
             <div class="pt-15">
@@ -97,20 +97,17 @@
 
         <section class="payment secondary-color">            
             <p class="font-bold text-lg pt-5 pb-5">信用卡付款資訊</p>
-            <div class="pt-15">
-                <label class="">卡片號碼：
-                    <input type="text" name="name" id="name" placeholder="**** **** **** ****">
-                </label>
+            <div class="pt-15 flex items-center">
+                <label class="">卡片號碼：</label>
+                <div class="tpfield" id="card-number"></div>
             </div>
-            <div class="pt-15">
-                <label class="">過期時間：
-                    <input type="email" name="email" id="email" placeholder="MM / YY">
-                </label>
+            <div class="pt-15 flex items-center">
+                <label class="">過期時間：</label>
+                <div class="tpfield" id="card-expiration-date"></div>
             </div>
-            <div class="pt-15">
-                <label class="">驗證密碼：
-                    <input type="text" name="name" id="name" placeholder="CVV">
-                </label>
+            <div class="pt-15 flex items-center">
+                <label class="">驗證密碼：</label>
+                <div class="tpfield" id="card-ccv"></div>
             </div>
         </section>
 
@@ -118,7 +115,7 @@
 
         <section class="confirm secondary-color flex">
             <div class="font-bold">總價：新台幣 <span class="total_price">2000</span> 元</div>
-            <div class="confirm_btn mx-25">確認訂購並付款</div>
+            <button class="confirm_btn mx-25" type="submit">確認訂購並付款</button>
         </section>
     </div>
 
@@ -131,5 +128,7 @@
     </footer>
 
     <script src="/static/booking/index.js"></script>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.5.1"></script>
+    <script src="/static/tappay.js"></script>
 </body>
 </html>

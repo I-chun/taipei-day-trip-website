@@ -1,5 +1,7 @@
 from flask import *
 from flask import Blueprint
+import requests 
+from datetime import datetime
 import mysql.connector
 
 # 建立 db連線
@@ -282,7 +284,7 @@ def signout():
 @api.route("/booking", methods=["GET"])
 def getBooking(): 
 
-    if session['loginStatus'] == 'y':
+    if session.get('loginStatus') and session['loginStatus'] == 'y':
         if session.get('booking'):
             json_var = session['booking']
             return jsonify(json_var), 200
@@ -300,7 +302,7 @@ def getBooking():
 @api.route("/booking", methods=["POST"])
 def setBooking(): 
 
-    if session['loginStatus'] == 'y':
+    if  session.get('loginStatus') and session['loginStatus'] == 'y':
         data = request.get_json()
 
         if data["attractionId"] == "" or data['date'] == "" or data['time'] == "" or data['price'] == "":
@@ -368,6 +370,145 @@ def deleteBooking():
         session['booking'] = False
         json_var = {"ok": True}
         return jsonify(json_var), 200
+    else:
+        json_var = { 
+            "error": True,
+            "message": "未登入系統，拒絕存取"
+        }
+        return jsonify(json_var), 403
+
+# 建立新的訂單，並完成付款程序
+@api.route("/orders", methods=["POST"])
+def setOrder(): 
+
+    if session.get('loginStatus') and session['loginStatus'] == 'y':
+ 
+        data =  request.get_json()
+
+        json_data = {
+            "prime": data['prime'],
+            "partner_key": "partner_kcDZEMW3HCu1xZUXRZrtDso2JxjqLZsqsKkI4XHMj2u1q5hyBbKfpcSl",
+            "merchant_id": "SamStudio_NCCC",
+            "details":"TapPay Test",
+            "amount": data['order']['price'],
+            "cardholder": {
+                "phone_number": data['order']['contact']['phone'],
+                "name": data['order']['contact']['name'],
+                "email": data['order']['contact']['email']
+            },
+            "remember": False
+        }
+
+        headers = {
+            'content-type': 'application/json',
+            'x-api-key' : 'partner_kcDZEMW3HCu1xZUXRZrtDso2JxjqLZsqsKkI4XHMj2u1q5hyBbKfpcSl'
+        }
+
+        res = requests.post(
+            'https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime', 
+            headers=headers, 
+            data=json.dumps(json_data)
+        )
+        res = json.loads( res.text )
+
+        # res = { 'status' : 0 } 
+
+        if  res["status"] == 0 :
+            pay_status = True
+        else :
+            pay_status = False
+
+        uid = datetime.now().strftime('%Y%m%d%H%M%S')
+
+        # 新增訂單
+        try :
+            insert_query= '''INSERT INTO orders 
+            ( order_num, order_price, 
+            attraction_id, attraction_name, attraction_address, attraction_image, 
+            order_date, order_time, order_name, order_email, order_phone, pay_status ) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s ) ;'''
+            val = (uid, data['order']['price'], 
+            data['order']['trip']['attraction']['id'], data['order']['trip']['attraction']['name'],
+            data['order']['trip']['attraction']['address'], data['order']['trip']['attraction']['image'],
+            data['order']['trip']['date'], data['order']['trip']['time'],
+            data['order']['contact']['name'], data['order']['contact']['email'], data['order']['contact']['phone'],
+            pay_status )
+
+            cursor.execute(insert_query, val)   
+            mydb.commit()
+
+            json_var = {
+                "data": {
+                    "number": uid,
+                    "payment": {
+                    "status": 0,
+                    "message": "付款成功"
+                    }
+                }
+            }
+            return jsonify(json_var), 200
+
+        except mysql.connector.Error as err :
+            print(err)
+            print("Error Code:", err.errno)
+            print("SQLSTATE", err.sqlstate)
+            print("Message", err.msg)
+            if  err.errno == 1048 :
+                json_var = {
+                "error": True,
+                "message": "訂單建立失敗，輸入不正確或其他原因"
+                }
+                return jsonify(json_var), 400
+            else: 
+                json_var = {
+                    "error": True,
+                    "message": "伺服器內部錯誤"
+                }
+                return jsonify(json_var), 500
+    else:
+        json_var = { 
+            "error": True,
+            "message": "未登入系統，拒絕存取"
+        }
+        return jsonify(json_var), 403
+
+# 根據訂單編號取得訂單資訊
+@api.route("/orders/<ordernumber>", methods=["GET"])
+def getOrder(ordernumber): 
+
+    if  session.get('loginStatus') and session['loginStatus'] == 'y':
+
+        select_query = "SELECT * FROM orders WHERE order_num = %s ;"
+        cursor.execute(select_query, (ordernumber,))
+
+        if cursor.rowcount > 0 :
+            result = cursor.fetchone()
+            json_var = {
+                "data": {
+                    "number": result[0],
+                    "price": result[1],
+                    "trip": {
+                        "attraction": {
+                            "id": result[2],
+                            "name": result[3],
+                            "address": result[4],
+                            "image":  result[5]
+                        },
+                        "date": result[6],
+                        "time": result[7]
+                    },
+                    "contact": {
+                        "name": result[8],
+                        "email": result[9],
+                        "phone": result[10]
+                    },
+                    "status": result[11]
+                }
+            }
+            return jsonify(json_var), 200
+        else :  
+            json_var = {"data": None}
+            return jsonify(json_var), 400
     else:
         json_var = { 
             "error": True,

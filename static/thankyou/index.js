@@ -6,10 +6,24 @@ const formSwitch = document.querySelectorAll('.switch');
 const orderNumber = document.querySelector(".order_number");
 const params = new URLSearchParams(window.location.search);
 const number = params.get("number");
+const loader = document.querySelector(".svg-loader");
+
+
+displayLoading();
 
 window.onload = function(){
-    getUser();
+    getUser().then(()=>{
+        hideLoading();
+    });
     orderNumber.textContent = number;
+}
+
+function displayLoading(){
+    loader.classList.add("display-flex");
+}
+
+function hideLoading(){
+    loader.classList.remove("display-flex");
 }
 
 signInSignUpBtn.addEventListener('click', function(e){
@@ -90,10 +104,30 @@ document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e)
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
 
+    const nameEle = document.querySelector('#signUpName');
+    const emailEle = document.querySelector('#signUpEmail');
+    const passwordEle = document.querySelector('#signUpPassword');
+
+    if ( !nameEle.value || !emailEle.value || !passwordEle.value ){
+        document.querySelector(".signUpMessage").textContent = "請輸入完整註冊資料";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+
+    }
+
+    if ( !validateEmail(emailEle.value)){
+        document.querySelector(".signUpMessage").textContent = "EMAIL輸入格式有誤";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+    }
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+
     let signUpformData = {
-        "name": document.querySelector('#signUpName').value,
-        "email": document.querySelector('#signUpEmail').value,
-        "password": document.querySelector('#signUpPassword').value
+        "name": nameEle.value,
+        "email": emailEle.value,
+        "password": passwordEle.value
     };
 
     const response = fetch( url, {
@@ -215,4 +249,10 @@ document.querySelector('.logOutBtn').addEventListener('click', function(e){
         console.error('錯誤:', err);
     });
 });
+
+function validateEmail(email) { //Validates the email address
+    var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
+}
+
 

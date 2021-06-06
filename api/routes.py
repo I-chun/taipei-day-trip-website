@@ -1,18 +1,28 @@
-from flask import *
-from flask import Blueprint
+import os
 import requests 
+from flask import *
 from datetime import datetime
-import mysql.connector
+from mysql.connector import Error
+from mysql.connector import pooling
+from dotenv import load_dotenv
+
+# 取得ENV
+load_dotenv()
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PW = os.getenv('DB_PW')
+PARTNER_KEY = os.getenv('PARTNER_KEY')
+MERCHANT_ID = os.getenv('MERCHANT_ID')
 
 # 建立 db連線
-mydb = mysql.connector.connect(
+connection_pool = pooling.MySQLConnectionPool(
   host="localhost",
-  user="",
-  password="",
-  database="website",
+  user=DB_USER,
+  password=DB_PW,
+  database=DB_NAME,
+  pool_name="pool",
+  pool_size=5,
 )
-
-cursor = mydb.cursor(buffered=True)
 
 api = Blueprint( 'api', __name__, url_prefix='/api' )
 
@@ -21,6 +31,9 @@ api = Blueprint( 'api', __name__, url_prefix='/api' )
 def getAttraction(attractionid):
 
     try:
+        connection_object = connection_pool.get_connection()
+        connection_object.ping(reconnect=False, attempts=1, delay=0)
+        cursor = connection_object.cursor(buffered=True)
         # 設定 Sql Statement
         select_query = "SELECT * FROM taipeitrip WHERE id = %s ;"
         cursor.execute(select_query, (attractionid,))
@@ -43,7 +56,7 @@ def getAttraction(attractionid):
                     "longitude": float(result[8]) ,
                     "images": result[9].split(',')
                 }
-			}
+            }
             return jsonify(json_var), 200
 
         else :  
@@ -53,7 +66,7 @@ def getAttraction(attractionid):
             }
             return jsonify(json_var), 400
 
-    except mysql.connector.Error as err :
+    except Error as err :
         print("Error Code:", err.errno)
         print("Message", err.msg)
 
@@ -62,6 +75,13 @@ def getAttraction(attractionid):
             "message": "伺服器內部錯誤"
         }
         return jsonify(json_var), 500
+
+    finally:
+        # closing database connection.
+        if connection_object.is_connected():
+            cursor.close()
+            connection_object.close()
+            print("MySQL connection is closed")
 
 # 取得景點資料列表
 @api.route("/attractions")
@@ -81,6 +101,10 @@ def getAttractions():
         keyword = None
     
     try:
+        connection_object = connection_pool.get_connection()
+        connection_object.ping(reconnect=False, attempts=1, delay=0)
+        cursor = connection_object.cursor(buffered=True)
+
         # 設定 Sql Statement
         if keyword:  
             select_query = '''
@@ -125,11 +149,10 @@ def getAttractions():
 
                 i = i + 1
 
-
             json_var = {
                 "nextPage": nextPage,
                 "data": data
-			}
+            }
 
             return jsonify(json_var), 200
 
@@ -141,7 +164,7 @@ def getAttractions():
 
             return jsonify(json_var), 400
 
-    except mysql.connector.Error as err :
+    except Error as err :
         print("Error Code:", err.errno)
         print("Message", err.msg)
 
@@ -151,6 +174,13 @@ def getAttractions():
         }
 
         return jsonify(json_var), 500
+
+    finally:
+    # closing database connection.
+        if connection_object.is_connected():
+            cursor.close()
+            connection_object.close()
+            print("MySQL connection is closed")
 
 # 取得當前登入的使用者資訊
 @api.route("/user", methods=["GET"])
@@ -163,23 +193,45 @@ def getUser():
         json_var = {"data": None}
         return jsonify(json_var), 400
 
-    # check username是否重複
-    select_query = "SELECT * FROM user WHERE email = %s ;"
-    cursor.execute(select_query, (email,))
+    try:
+        connection_object = connection_pool.get_connection()
+        connection_object.ping(reconnect=False, attempts=1, delay=0)
+        cursor = connection_object.cursor(buffered=True)
+        select_query = "SELECT * FROM user WHERE email = %s ;"
+        cursor.execute(select_query, (email,))
 
-    if cursor.rowcount > 0 :
-        result = cursor.fetchone()
+        # check username是否重複
+        if cursor.rowcount > 0 :
+            result = cursor.fetchone()
+            json_var = {
+                        "data": {
+                            "id": result[0] ,
+                            "name": result[1] ,
+                            "email": result[2] 
+                        }
+            }
+            return jsonify(json_var), 200
+        else :  
+            json_var = {"data": None}
+            return jsonify(json_var), 400
+
+    except Error as err :
+        print("Error Code:", err.errno)
+        print("Message", err.msg)
+
         json_var = {
-                    "data": {
-                        "id": result[0] ,
-                        "name": result[1] ,
-                        "email": result[2] 
-                    }
+            "error": True,
+            "message": "伺服器內部錯誤"
         }
-        return jsonify(json_var), 200
-    else :  
-        json_var = {"data": None}
-        return jsonify(json_var), 400
+
+        return jsonify(json_var), 500
+
+    finally:
+    # closing database connection.
+        if connection_object.is_connected():
+            cursor.close()
+            connection_object.close()
+            print("MySQL connection is closed")
 
 # 註冊一個新的使用者
 @api.route("/user", methods=["POST"])
@@ -198,41 +250,48 @@ def signup():
     email = data["email"]
     password = data['password']
 
-    # check username是否重複
-    select_query = "SELECT * FROM user WHERE email = %s ;"
-    cursor.execute(select_query, (email,))
+    try :
+        connection_object = connection_pool.get_connection()
+        connection_object.ping(reconnect=False, attempts=1, delay=0)
+        cursor = connection_object.cursor(buffered=True)
 
-    if cursor.rowcount <= 0 :
-    #     # 設定 session
-        session['loginStatus'] = 'y'
-        session['email'] = email
-        # 註冊
-        try :
+        # check username是否重複
+        select_query = "SELECT * FROM user WHERE email = %s ;"
+        cursor.execute(select_query, (email,))
+
+        if cursor.rowcount <= 0 :
+        #     # 設定 session
+            session['loginStatus'] = 'y'
+            session['email'] = email
+            # 註冊
+
             insert_query= "INSERT INTO user (name, email, password) VALUES (%s, %s, %s) ;"
             val = (name, email, password)
             cursor.execute(insert_query, val)   
-            mydb.commit()
+            connection_object.commit()
 
             json_var = {"ok": True}
             return jsonify(json_var), 200
 
-        except mysql.connector.Error as err :
-            print(err)
-            print("Error Code:", err.errno)
-            print("SQLSTATE", err.sqlstate)
-            print("Message", err.msg)
+        else :
+                json_var = {
+                "error": True,
+                "message": "這個Email已重複註冊"
+                }
+                return jsonify(json_var), 400
 
-            json_var = {
-              "error": True,
-              "message": "伺服器內部錯誤"
-            }
-            return jsonify(json_var), 500
-    else :
-            json_var = {
-              "error": True,
-              "message": "這個Email已重複註冊"
-            }
-            return jsonify(json_var), 400
+    except Error as err :
+        print("Error Code:", err.errno)
+        print("Message", err.msg)
+        json_var = { "error": True, "message": "伺服器內部錯誤"}
+        return jsonify(json_var), 500
+
+    finally:
+    # closing database connection.
+        if connection_object.is_connected():
+            cursor.close()
+            connection_object.close()
+            print("MySQL connection is closed")
 
 # 登入使用者帳戶
 @api.route("/user", methods=["PATCH"])
@@ -250,25 +309,43 @@ def signin():
     email = data["email"]
     password = data['password']
 
-    # check 有沒有這組帳密
-    select_query = "SELECT * FROM user WHERE email = %s AND password = %s ;"
-    val = (email, password)
-    cursor.execute(select_query, val)
+    try :
+        connection_object = connection_pool.get_connection()
+        connection_object.ping(reconnect=False, attempts=1, delay=0)
+        cursor = connection_object.cursor(buffered=True)
 
-    if cursor.rowcount > 0 :
-        result = cursor.fetchone()
-        # 設定 session
-        session['loginStatus'] = 'y'
-        session['email'] = result[2]
+        # check 有沒有這組帳密
+        select_query = "SELECT * FROM user WHERE email = %s AND password = %s ;"
+        val = (email, password)
+        cursor.execute(select_query, val)
 
-        json_var = {"ok": True}
-        return jsonify(json_var), 200
-    else :
-        json_var = {
-              "error": True,
-              "message": "帳號或密碼輸入錯誤"
-        }
-        return jsonify(json_var), 400
+        if cursor.rowcount > 0 :
+            result = cursor.fetchone()
+            # 設定 session
+            session['loginStatus'] = 'y'
+            session['email'] = result[2]
+
+            json_var = {"ok": True}
+            return jsonify(json_var), 200
+        else :
+            json_var = {
+                "error": True,
+                "message": "帳號或密碼輸入錯誤"
+            }
+            return jsonify(json_var), 400
+
+    except Error as err :
+        print("Error Code:", err.errno)
+        print("Message", err.msg)
+        json_var = { "error": True, "message": "伺服器內部錯誤"}
+        return jsonify(json_var), 500
+
+    finally:
+    # closing database connection.
+        if connection_object.is_connected():
+            cursor.close()
+            connection_object.close()
+            print("MySQL connection is closed")
 
 # 登出使用者帳戶
 @api.route("/user", methods=["DELETE"])
@@ -312,8 +389,10 @@ def setBooking():
             }
             return jsonify(json_var), 400
 
-
         try:
+            connection_object = connection_pool.get_connection()
+            connection_object.ping(reconnect=False, attempts=1, delay=0)
+            cursor = connection_object.cursor(buffered=True)
             # 設定 Sql Statement
             select_query = "SELECT * FROM taipeitrip WHERE id = %s ;"
             cursor.execute(select_query, (data["attractionId"],))
@@ -347,15 +426,19 @@ def setBooking():
                 }
                 return jsonify(json_var), 400
 
-        except mysql.connector.Error as err :
+        except Error as err :
             print("Error Code:", err.errno)
             print("Message", err.msg)
-
-            json_var = {
-                "error": True,
-                "message": "伺服器內部錯誤"
-            }
+            json_var = { "error": True, "message": "伺服器內部錯誤"}
             return jsonify(json_var), 500
+
+        finally:
+        # closing database connection.
+            if connection_object.is_connected():
+                cursor.close()
+                connection_object.close()
+                print("MySQL connection is closed")
+
     else:
         json_var = { 
             "error": True,
@@ -387,8 +470,8 @@ def setOrder():
 
         json_data = {
             "prime": data['prime'],
-            "partner_key": "partner_kcDZEMW3HCu1xZUXRZrtDso2JxjqLZsqsKkI4XHMj2u1q5hyBbKfpcSl",
-            "merchant_id": "SamStudio_NCCC",
+            "partner_key": PARTNER_KEY,
+            "merchant_id": MERCHANT_ID,
             "details":"TapPay Test",
             "amount": data['order']['price'],
             "cardholder": {
@@ -401,7 +484,7 @@ def setOrder():
 
         headers = {
             'content-type': 'application/json',
-            'x-api-key' : 'partner_kcDZEMW3HCu1xZUXRZrtDso2JxjqLZsqsKkI4XHMj2u1q5hyBbKfpcSl'
+            'x-api-key' : PARTNER_KEY
         }
 
         res = requests.post(
@@ -422,6 +505,11 @@ def setOrder():
 
         # 新增訂單
         try :
+
+            connection_object = connection_pool.get_connection()
+            connection_object.ping(reconnect=False, attempts=1, delay=0)
+            cursor = connection_object.cursor(buffered=True)
+
             insert_query= '''INSERT INTO orders 
             ( order_num, order_price, 
             attraction_id, attraction_name, attraction_address, attraction_image, 
@@ -435,7 +523,10 @@ def setOrder():
             pay_status )
 
             cursor.execute(insert_query, val)   
-            mydb.commit()
+            connection_object.commit()
+
+            # 刪除已預訂行程
+            session['booking'] = False
 
             json_var = {
                 "data": {
@@ -448,7 +539,7 @@ def setOrder():
             }
             return jsonify(json_var), 200
 
-        except mysql.connector.Error as err :
+        except Error as err :
             print(err)
             print("Error Code:", err.errno)
             print("SQLSTATE", err.sqlstate)
@@ -465,6 +556,14 @@ def setOrder():
                     "message": "伺服器內部錯誤"
                 }
                 return jsonify(json_var), 500
+
+        finally:
+        # closing database connection.
+            if connection_object.is_connected():
+                cursor.close()
+                connection_object.close()
+                print("MySQL connection is closed")
+
     else:
         json_var = { 
             "error": True,
@@ -477,38 +576,55 @@ def setOrder():
 def getOrder(ordernumber): 
 
     if  session.get('loginStatus') and session['loginStatus'] == 'y':
+        try :
+            connection_object = connection_pool.get_connection()
+            connection_object.ping(reconnect=False, attempts=1, delay=0)
+            cursor = connection_object.cursor(buffered=True)
 
-        select_query = "SELECT * FROM orders WHERE order_num = %s ;"
-        cursor.execute(select_query, (ordernumber,))
+            select_query = "SELECT * FROM orders WHERE order_num = %s ;"
+            cursor.execute(select_query, (ordernumber,))
 
-        if cursor.rowcount > 0 :
-            result = cursor.fetchone()
-            json_var = {
-                "data": {
-                    "number": result[0],
-                    "price": result[1],
-                    "trip": {
-                        "attraction": {
-                            "id": result[2],
-                            "name": result[3],
-                            "address": result[4],
-                            "image":  result[5]
+            if cursor.rowcount > 0 :
+                result = cursor.fetchone()
+                json_var = {
+                    "data": {
+                        "number": result[0],
+                        "price": result[1],
+                        "trip": {
+                            "attraction": {
+                                "id": result[2],
+                                "name": result[3],
+                                "address": result[4],
+                                "image":  result[5]
+                            },
+                            "date": result[6],
+                            "time": result[7]
                         },
-                        "date": result[6],
-                        "time": result[7]
-                    },
-                    "contact": {
-                        "name": result[8],
-                        "email": result[9],
-                        "phone": result[10]
-                    },
-                    "status": result[11]
+                        "contact": {
+                            "name": result[8],
+                            "email": result[9],
+                            "phone": result[10]
+                        },
+                        "status": result[11]
+                    }
                 }
-            }
-            return jsonify(json_var), 200
-        else :  
-            json_var = {"data": None}
-            return jsonify(json_var), 400
+                return jsonify(json_var), 200
+            else :  
+                json_var = {"data": None}
+                return jsonify(json_var), 400
+
+        except Error as err :
+            print("Error Code:", err.errno)
+            print("Message", err.msg)
+            json_var = { "error": True, "message": "伺服器內部錯誤"}
+            return jsonify(json_var), 500
+
+        finally:
+        # closing database connection.
+            if connection_object.is_connected():
+                cursor.close()
+                connection_object.close()
+                print("MySQL connection is closed")
     else:
         json_var = { 
             "error": True,

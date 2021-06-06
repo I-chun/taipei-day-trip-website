@@ -16,11 +16,24 @@ const user_email = document.querySelector('input[name="user_email"]');
 const info_container = document.querySelector('.info_container');
 const emptystate_container = document.querySelector('.emptystate_container');
 const attractionData = {};
+const loader = document.querySelector(".svg-loader");
+
+displayLoading();
 
 window.onload = function(){
     getUser().then(()=>{
-        getBooking();
+        getBooking().then(()=>{
+            hideLoading();
+        });
     });
+}
+
+function displayLoading(){
+    loader.classList.add("display-flex");
+}
+
+function hideLoading(){
+    loader.classList.remove("display-flex");
 }
 
 const getBooking = async () =>{
@@ -58,16 +71,15 @@ const getBooking = async () =>{
             attraction_price.textContent = jsonData.data.price;
             attraction_total_price.textContent = jsonData.data.price;
             attraction_address.textContent = jsonData.data.attraction.address;
+
+            attractionData.id =  jsonData.data.attraction.id;
+            attractionData.name = jsonData.data.attraction.name;
+            attractionData.address = jsonData.data.attraction.address;
+            attractionData.image = jsonData.data.attraction.image;
+            attractionData.time = jsonData.data.time;
+            attractionData.price = jsonData.data.price;
+            attractionData.date =  jsonData.data.date;
         }
-
-        attractionData.id =  jsonData.data.attraction.id;
-        attractionData.name = jsonData.data.attraction.name;
-        attractionData.address = jsonData.data.attraction.address;
-        attractionData.image = jsonData.data.attraction.image;
-        attractionData.time = jsonData.data.time;
-        attractionData.price = jsonData.data.price;
-        attractionData.date =  jsonData.data.date;
-
     }).catch((err) => {
         console.error('錯誤:', err);
     });
@@ -159,10 +171,30 @@ document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e)
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
 
+    const nameEle = document.querySelector('#signUpName');
+    const emailEle = document.querySelector('#signUpEmail');
+    const passwordEle = document.querySelector('#signUpPassword');
+
+    if ( !nameEle.value || !emailEle.value || !passwordEle.value ){
+        document.querySelector(".signUpMessage").textContent = "請輸入完整註冊資料";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+
+    }
+
+    if ( !validateEmail(emailEle.value)){
+        document.querySelector(".signUpMessage").textContent = "EMAIL輸入格式有誤";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+    }
+
+    document.querySelector(".signInMessage").textContent = "";
+    document.querySelector(".signUpMessage").textContent = "";
+
     let signUpformData = {
-        "name": document.querySelector('#signUpName').value,
-        "email": document.querySelector('#signUpEmail').value,
-        "password": document.querySelector('#signUpPassword').value
+        "name": nameEle.value,
+        "email": emailEle.value,
+        "password": passwordEle.value
     };
 
     const response = fetch( url, {
@@ -357,9 +389,16 @@ function setOrder(prime){
     .then((response) => {
         return response.json(); 
     }).then((jsonData) => {
-        var url = "/thankyou?number=" + jsonData.data.number;
+        let url = "/thankyou?number=" + jsonData.data.number;
         window.location.href = url;
     }).catch((err) => {
         console.error('錯誤:', err);
+    }).finally(()=>{
+        hideLoading();
     });
+}
+
+function validateEmail(email) { //Validates the email address
+    var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
 }

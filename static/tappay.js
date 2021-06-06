@@ -55,27 +55,46 @@ TPDirect.card.onUpdate(function (update) {
 })
 
 document.querySelector("button[type='submit']").addEventListener("click", function(e){
+
+    const nameEle = document.querySelector('input[name="user_name2"]');
+    const emailEle = document.querySelector('input[name="user_email"]');
+    const phoneEle = document.querySelector('input[name="user_phone"]');
+
+    if ( !nameEle.value || !emailEle.value || !phoneEle.value ){
+        alert('請輸入完整聯絡資訊')
+        return
+    }
+
+    if ( !validateEmail(emailEle.value)){
+        alert('請輸入正確email')
+        return
+    }
+
+    if ( !validatePhone(phoneEle.value)){
+        alert('請輸入正確電話')
+        return
+    }
+
     e.preventDefault()
     
     // fix keyboard issue in iOS device
     forceBlurIos()
     
     const tappayStatus = TPDirect.card.getTappayFieldsStatus()
-    // console.log(tappayStatus)
 
     // Check TPDirect.card.getTappayFieldsStatus().canGetPrime before TPDirect.card.getPrime
     if (tappayStatus.canGetPrime === false) {
-        alert('請輸入完整資訊')
+        alert('請輸入完整付款資訊')
         return
     }
 
+    displayLoading();
     // Get prime
     TPDirect.card.getPrime(function (result) {
         if (result.status !== 0) {
             alert('get prime error ' + result.msg)
             return
         }
-        // alert('get prime 成功，prime: ' + result.card.prime)
         setOrder(result.card.prime);
     })
 })
@@ -96,4 +115,13 @@ function forceBlurIos() {
 function isIos() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
-// ios區
+
+function validateEmail(email) { //Validates the email address
+    var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
+}
+
+function validatePhone(phone) { //Validates the phone number
+    var phoneRegex = /^(\+91-|\+91|0)?\d{10}$/; // Change this regex based on requirement
+    return phoneRegex.test(phone);
+}

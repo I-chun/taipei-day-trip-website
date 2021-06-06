@@ -1,23 +1,27 @@
-var sightseeingData = null;
-var count = 0;
-var num = 0;
-var page = 0;
-var hasNextPage = true;
-var loadFinish = false;
-var keyword = "";
-var moreBtn = document.querySelector('.loadMore');
-var searchBtn = document.querySelector('.searchBtn');
-var nodData = document.querySelector('.nodata');
-var signInSignUpBtn = document.querySelector('.signIn_signUp_btn');
-var logOutBtn = document.querySelector('.logOutBtn');
-var formContainer = document.querySelector('.form_container');
-var formClose = document.querySelectorAll('.close');
-var formSwitch = document.querySelectorAll('.switch');
+let sightseeingData = null;
+let count = 0;
+let num = 0;
+let page = 0;
+let hasNextPage = true;
+let loadFinish = false;
+let keyword = "";
 let isLogin = false;
+const moreBtn = document.querySelector('.loadMore');
+const searchBtn = document.querySelector('.searchBtn');
+const nodData = document.querySelector('.nodata');
+const signInSignUpBtn = document.querySelector('.signIn_signUp_btn');
+const logOutBtn = document.querySelector('.logOutBtn');
+const formContainer = document.querySelector('.form_container');
+const formClose = document.querySelectorAll('.close');
+const formSwitch = document.querySelectorAll('.switch');
+const loader = document.querySelector(".svg-loader");
 
+displayLoading();
 window.onload = function(){
     getData().then(()=>{
-        getUser();
+        getUser().then(()=>{
+            hideLoading();
+        });
     })
 }
 
@@ -25,6 +29,14 @@ function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
+}
+
+function displayLoading(){
+    loader.classList.add("display-flex");
+}
+
+function hideLoading(){
+    loader.classList.remove("display-flex");
 }
 
 const getData = async () =>{
@@ -73,7 +85,7 @@ const getData = async () =>{
             cardMrt.textContent = jsonData.data[num].mrt;
             img.src = jsonData.data[num].images[0];
             cardlink.href = "/attraction/" + jsonData.data[num].id;
-            console.log( cardlink.href );
+            // console.log( cardlink.href );
 
             cardlink.appendChild(cardImg);
             cardImg.appendChild(img);
@@ -113,7 +125,11 @@ var intersectionObserver = new IntersectionObserver(function(entries) {
   
     if( hasNextPage && loadFinish ){
         loadFinish = false;
-        getData( page ,keyword );
+
+        displayLoading();
+        getData( page ,keyword ).then(()=>{
+            hideLoading();
+        });
     }
 });
 
@@ -208,13 +224,30 @@ document.querySelector('.signUpSubmitBtn').addEventListener('click', function(e)
     let testurl = "http://127.0.0.1";
     url = devurl + ':3000/api/user' ;
 
+    const nameEle = document.querySelector('#signUpName');
+    const emailEle = document.querySelector('#signUpEmail');
+    const passwordEle = document.querySelector('#signUpPassword');
+
+    if ( !nameEle.value || !emailEle.value || !passwordEle.value ){
+        document.querySelector(".signUpMessage").textContent = "請輸入完整註冊資料";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+
+    }
+
+    if ( !validateEmail(emailEle.value)){
+        document.querySelector(".signUpMessage").textContent = "EMAIL輸入格式有誤";
+        document.querySelector(".signUpMessage").classList.add("danger");
+        return
+    }
+
     document.querySelector(".signInMessage").textContent = "";
     document.querySelector(".signUpMessage").textContent = "";
 
     let signUpformData = {
-        "name": document.querySelector('#signUpName').value,
-        "email": document.querySelector('#signUpEmail').value,
-        "password": document.querySelector('#signUpPassword').value
+        "name": nameEle.value,
+        "email": emailEle.value,
+        "password": passwordEle.value
     };
 
     const response = fetch( url, {
@@ -342,3 +375,8 @@ document.querySelector('.booking').addEventListener('click', function(e){
         document.querySelector(".signInMessage").classList.add("danger");
     }
 })
+
+function validateEmail(email) { //Validates the email address
+    var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return emailRegex.test(email);
+}

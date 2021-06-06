@@ -13,6 +13,30 @@
 </head>
 <body class="wrap">
 
+    <!-- LOADING -->
+    <div class="svg-loader">
+        <svg class="svg-container" height="50" width="50" viewBox="0 0 50 50">
+            <circle class="loader-svg" 
+                cx="25" 
+                cy="25" 
+                r="20" 
+                fill="transparent" 
+                stroke="#666666" 
+                stroke-width="5"   
+                transform="rotate(-90 25 25)";>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- ALERT -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
     <nav class="navigation">
         <div class="container">
             <h1 class="logo"><a href="/">台北一日遊</a></h1>
@@ -24,6 +48,7 @@
         </div>
     </nav>
 
+    <!-- LOGIN_FORM -->
     <div class="form_container">
         <div class="signIn">
             <div class="decbar"></div>
@@ -49,6 +74,7 @@
         </div>
     </div>
 
+    <!-- CONTENT -->
     <div class="headline text-lg secondary-color font-bold">
         您好，<span class="user_name1"></span>，待預訂的行程如下：
     </div>
@@ -123,10 +149,12 @@
         <p class="secondary-color">目前沒有任何待預訂的行程</p>
     </div>
 
+    <!-- FOOTER -->
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
+    <!-- SCRIPT -->
     <script src="/static/booking/index.js"></script>
     <script src="https://js.tappaysdk.com/tpdirect/v5.5.1"></script>
     <script src="/static/tappay.js"></script>

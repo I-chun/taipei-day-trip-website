@@ -13,6 +13,23 @@
 
 </head>
 <body class="wrap">
+
+    <!-- LOADING -->
+    <div class="svg-loader">
+        <svg class="svg-container" height="50" width="50" viewBox="0 0 50 50">
+            <circle class="loader-svg" 
+                cx="25" 
+                cy="25" 
+                r="20" 
+                fill="transparent" 
+                stroke="#666666" 
+                stroke-width="5"   
+                transform="rotate(-90 25 25)";>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- NAVIGATION -->
     <nav class="navigation">
         <div class="container">
             <h1 class="logo"><a href="/">台北一日遊</a></h1>
@@ -23,25 +40,8 @@
             </ul>
         </div>
     </nav>
-    <section class="banner">
-        <div class="container">
-            <div class="slogan">
-                <h2>輕鬆享受台北一日悠閒</h2>
-                <p>探索每個角落，體驗城市的深度旅遊行程</p>
-            </div>
-            <div class="search">
-                <input class="keyword" type="text" placeholder="輸入景點名稱查詢">
-                <div class="searchBtn"><img src="../static/img/icon_search.png" alt=""></div>
-            </div>
-        </div>
-        <img class="dec_img" src="../static/img/welcome 1.png" alt="">
-    </section>
 
-    <section class="attractions">
-        <div class="container"></div>
-        <div class="nodata">資料到底</div>
-    </section>
-
+    <!-- LOGIN_FORM -->
     <div class="form_container">
         <div class="signIn">
             <div class="decbar"></div>
@@ -67,10 +67,33 @@
         </div>
     </div>
 
+    <!-- BANNER -->
+    <section class="banner">
+        <div class="container">
+            <div class="slogan">
+                <h2>輕鬆享受台北一日悠閒</h2>
+                <p>探索每個角落，體驗城市的深度旅遊行程</p>
+            </div>
+            <div class="search">
+                <input class="keyword" type="text" placeholder="輸入景點名稱查詢">
+                <div class="searchBtn"><img src="../static/img/icon_search.png" alt=""></div>
+            </div>
+        </div>
+        <img class="dec_img" src="../static/img/welcome 1.png" alt="">
+    </section>
+
+    <!-- CONTENT -->
+    <section class="attractions">
+        <div class="container"></div>
+        <div class="nodata">資料到底</div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
+    <!-- SCRIPT -->
     <script src="/static/index.js"></script>
 </body>
 </html>

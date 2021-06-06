@@ -12,6 +12,23 @@
 
 </head>
 <body class="wrap">
+
+    <!-- LOADING -->
+    <div class="svg-loader">
+        <svg class="svg-container" height="50" width="50" viewBox="0 0 50 50">
+            <circle class="loader-svg" 
+                cx="25" 
+                cy="25" 
+                r="20" 
+                fill="transparent" 
+                stroke="#666666" 
+                stroke-width="5"   
+                transform="rotate(-90 25 25)";>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- NAVIGATION -->
     <nav class="navigation">
         <div class="container">
             <h1 class="logo"><a href="/">台北一日遊</a></h1>
@@ -23,6 +40,7 @@
         </div>
     </nav>
 
+    <!-- LOGIN_FORM -->
     <div class="form_container">
         <div class="signIn">
             <div class="decbar"></div>
@@ -48,14 +66,17 @@
         </div>
     </div>
 
+    <!-- CONTENT -->
     <div class="headline text-lg secondary-color font-bold text-center">
         感謝你的預定，你的訂單編號為 : <span class="order_number"></span>
     </div>
 
+    <!-- FOOTER -->
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
+    <!-- SCRIPT -->
     <script src="/static/thankyou/index.js"></script>
 </body>
 </html>

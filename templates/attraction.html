@@ -12,6 +12,23 @@
 
 </head>
 <body class="wrap">
+
+    <!-- LOADING -->
+    <div class="svg-loader">
+        <svg class="svg-container" height="50" width="50" viewBox="0 0 50 50">
+            <circle class="loader-svg" 
+                cx="25" 
+                cy="25" 
+                r="20" 
+                fill="transparent" 
+                stroke="#666666" 
+                stroke-width="5"   
+                transform="rotate(-90 25 25)";>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- NAVIGATION -->
     <nav class="navigation">
         <div class="container">
             <h1 class="logo"><a href="/">台北一日遊</a></h1>
@@ -23,6 +40,7 @@
         </div>
     </nav>
 
+    <!-- LOGIN_FORM -->
     <div class="form_container">
         <div class="signIn">
             <div class="decbar"></div>
@@ -48,6 +66,7 @@
         </div>
     </div>
 
+    <!-- CONTENT -->
     <section class="attraction">
         <div class="container">
             <div class="slideshow-container">
@@ -98,10 +117,12 @@
         </section>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     </footer>
 
+    <!-- SCRIPT -->
     <script src="/static/attraction/index.js"></script>
 </body>
 </html>
